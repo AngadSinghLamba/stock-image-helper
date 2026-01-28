@@ -1,0 +1,1296 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Stock Image Helper - Responsive Mockups</title>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: 'Inter', -apple-system, BlinkMacSystemFont, 'Segoe UI', sans-serif;
+            background: #f4f4f5;
+            padding: 20px;
+            line-height: 1.5;
+        }
+
+        .container {
+            max-width: 1400px;
+            margin: 0 auto;
+        }
+
+        h1 {
+            font-size: 36px;
+            font-weight: 700;
+            margin-bottom: 10px;
+            color: #0a0a0a;
+        }
+
+        h2 {
+            font-size: 24px;
+            font-weight: 600;
+            margin: 30px 0 15px;
+            color: #0a0a0a;
+        }
+
+        h3 {
+            font-size: 18px;
+            font-weight: 600;
+            margin: 20px 0 10px;
+            color: #0a0a0a;
+        }
+
+        .breakpoint-selector {
+            display: flex;
+            gap: 10px;
+            margin-bottom: 20px;
+            flex-wrap: wrap;
+        }
+
+        .breakpoint-btn {
+            padding: 8px 16px;
+            background: white;
+            border: 2px solid #e4e4e7;
+            border-radius: 6px;
+            cursor: pointer;
+            font-size: 14px;
+            transition: all 0.15s;
+        }
+
+        .breakpoint-btn:hover {
+            border-color: #2563eb;
+        }
+
+        .breakpoint-btn.active {
+            background: #2563eb;
+            color: white;
+            border-color: #2563eb;
+        }
+
+        .mockup-container {
+            background: white;
+            border-radius: 8px;
+            padding: 20px;
+            margin-bottom: 40px;
+            box-shadow: 0 1px 3px rgba(0,0,0,0.1);
+        }
+
+        .viewport {
+            border: 2px solid #e4e4e7;
+            border-radius: 8px;
+            overflow: hidden;
+            background: white;
+            margin-bottom: 20px;
+            transition: width 0.3s ease;
+        }
+
+        .viewport.desktop {
+            width: 100%;
+            max-width: 1280px;
+        }
+
+        .viewport.tablet {
+            width: 768px;
+            margin: 0 auto;
+        }
+
+        .viewport.mobile {
+            width: 375px;
+            margin: 0 auto;
+        }
+
+        /* Header Styles */
+        .header {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            padding: 16px 24px;
+            border-bottom: 1px solid #e4e4e7;
+            background: white;
+        }
+
+        .header.mobile {
+            padding: 12px 16px;
+        }
+
+        .logo {
+            font-size: 18px;
+            font-weight: 600;
+            color: #0a0a0a;
+        }
+
+        .nav {
+            display: flex;
+            gap: 16px;
+            align-items: center;
+        }
+
+        .nav.mobile {
+            gap: 8px;
+        }
+
+        .nav-item {
+            padding: 8px 12px;
+            color: #71717a;
+            text-decoration: none;
+            font-size: 14px;
+            border-radius: 4px;
+            transition: all 0.15s;
+        }
+
+        .nav-item:hover {
+            background: #f4f4f5;
+            color: #0a0a0a;
+        }
+
+        .nav-icon {
+            width: 24px;
+            height: 24px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            cursor: pointer;
+            border-radius: 4px;
+        }
+
+        .nav-icon:hover {
+            background: #f4f4f5;
+        }
+
+        /* Main Search Page */
+        .search-container {
+            padding: 40px 24px;
+            max-width: 900px;
+            margin: 0 auto;
+        }
+
+        .search-container.mobile {
+            padding: 24px 16px;
+        }
+
+        .search-title {
+            font-size: 24px;
+            font-weight: 600;
+            margin-bottom: 8px;
+            color: #0a0a0a;
+        }
+
+        .search-subtitle {
+            font-size: 14px;
+            color: #71717a;
+            margin-bottom: 24px;
+        }
+
+        .brief-input-container {
+            background: #f4f4f5;
+            border-radius: 8px;
+            padding: 24px;
+            margin-bottom: 24px;
+        }
+
+        .brief-input-container.mobile {
+            padding: 16px;
+        }
+
+        .brief-textarea {
+            width: 100%;
+            min-height: 120px;
+            padding: 12px;
+            border: 1px solid #e4e4e7;
+            border-radius: 6px;
+            font-size: 16px;
+            font-family: inherit;
+            resize: vertical;
+            background: white;
+        }
+
+        .brief-textarea:focus {
+            outline: none;
+            border-color: #2563eb;
+            box-shadow: 0 0 0 3px rgba(37, 99, 235, 0.1);
+        }
+
+        .controls-row {
+            display: flex;
+            gap: 16px;
+            align-items: center;
+            margin-top: 16px;
+            flex-wrap: wrap;
+        }
+
+        .controls-row.mobile {
+            flex-direction: column;
+            align-items: stretch;
+        }
+
+        .model-select {
+            padding: 8px 12px;
+            border: 1px solid #e4e4e7;
+            border-radius: 6px;
+            font-size: 14px;
+            background: white;
+            cursor: pointer;
+        }
+
+        .btn-primary {
+            padding: 10px 24px;
+            background: #2563eb;
+            color: white;
+            border: none;
+            border-radius: 6px;
+            font-size: 14px;
+            font-weight: 500;
+            cursor: pointer;
+            transition: all 0.15s;
+        }
+
+        .btn-primary:hover {
+            background: #1d4ed8;
+        }
+
+        .btn-primary.mobile {
+            width: 100%;
+        }
+
+        /* Brief Analysis */
+        .brief-analysis {
+            background: #f4f4f5;
+            border-radius: 8px;
+            padding: 20px;
+            margin-bottom: 24px;
+        }
+
+        .brief-analysis.mobile {
+            padding: 16px;
+        }
+
+        .analysis-title {
+            font-size: 14px;
+            font-weight: 600;
+            margin-bottom: 12px;
+            color: #0a0a0a;
+        }
+
+        .analysis-tags {
+            display: flex;
+            gap: 8px;
+            flex-wrap: wrap;
+        }
+
+        .analysis-tag {
+            padding: 6px 12px;
+            background: white;
+            border: 1px solid #e4e4e7;
+            border-radius: 6px;
+            font-size: 12px;
+            color: #0a0a0a;
+        }
+
+        /* View Toggle */
+        .view-toggle {
+            display: flex;
+            gap: 8px;
+            margin-bottom: 24px;
+        }
+
+        .view-btn {
+            padding: 6px 12px;
+            background: white;
+            border: 1px solid #e4e4e7;
+            border-radius: 6px;
+            font-size: 14px;
+            cursor: pointer;
+            transition: all 0.15s;
+        }
+
+        .view-btn.active {
+            background: #2563eb;
+            color: white;
+            border-color: #2563eb;
+        }
+
+        /* Platform Section */
+        .platform-section {
+            margin-bottom: 32px;
+        }
+
+        .platform-header {
+            display: flex;
+            align-items: center;
+            gap: 8px;
+            margin-bottom: 16px;
+        }
+
+        .platform-badge {
+            padding: 4px 12px;
+            border-radius: 4px;
+            font-size: 14px;
+            font-weight: 600;
+            color: white;
+        }
+
+        .platform-badge.getty {
+            background: #ff0000;
+        }
+
+        .platform-badge.shutterstock {
+            background: #ee2b24;
+        }
+
+        .platform-badge.adobe {
+            background: #ff0000;
+        }
+
+        .platform-badge.unsplash {
+            background: #000000;
+        }
+
+        .platform-badge.pexels {
+            background: #05a081;
+        }
+
+        /* Result Card */
+        .result-card {
+            background: white;
+            border: 1px solid #e4e4e7;
+            border-radius: 8px;
+            padding: 16px;
+            margin-bottom: 12px;
+            transition: all 0.15s;
+        }
+
+        .result-card:hover {
+            box-shadow: 0 4px 6px rgba(0,0,0,0.1);
+            border-color: #2563eb;
+        }
+
+        .result-query {
+            font-size: 16px;
+            font-weight: 500;
+            color: #0a0a0a;
+            margin-bottom: 8px;
+            word-break: break-word;
+        }
+
+        .result-reasoning {
+            font-size: 14px;
+            color: #71717a;
+            margin-bottom: 12px;
+        }
+
+        .result-actions {
+            display: flex;
+            gap: 8px;
+            align-items: center;
+            flex-wrap: wrap;
+        }
+
+        .btn-secondary {
+            padding: 6px 12px;
+            background: white;
+            border: 1px solid #e4e4e7;
+            border-radius: 6px;
+            font-size: 12px;
+            cursor: pointer;
+            transition: all 0.15s;
+        }
+
+        .btn-secondary:hover {
+            background: #f4f4f5;
+            border-color: #2563eb;
+        }
+
+        .btn-link {
+            padding: 6px 12px;
+            background: white;
+            border: 1px solid #e4e4e7;
+            border-radius: 6px;
+            font-size: 12px;
+            cursor: pointer;
+            color: #2563eb;
+            text-decoration: none;
+            display: inline-block;
+        }
+
+        .btn-link:hover {
+            background: #eff6ff;
+        }
+
+        .favorite-btn {
+            width: 32px;
+            height: 32px;
+            border: 1px solid #e4e4e7;
+            border-radius: 6px;
+            background: white;
+            cursor: pointer;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            margin-left: auto;
+        }
+
+        .favorite-btn:hover {
+            border-color: #2563eb;
+        }
+
+        /* Refine Section */
+        .refine-section {
+            background: #f4f4f5;
+            border-radius: 8px;
+            padding: 20px;
+            margin-top: 32px;
+        }
+
+        .refine-section.mobile {
+            padding: 16px;
+        }
+
+        .refine-input-row {
+            display: flex;
+            gap: 12px;
+            margin-top: 12px;
+        }
+
+        .refine-input-row.mobile {
+            flex-direction: column;
+        }
+
+        .refine-input {
+            flex: 1;
+            padding: 10px 12px;
+            border: 1px solid #e4e4e7;
+            border-radius: 6px;
+            font-size: 14px;
+        }
+
+        /* History Page */
+        .history-header {
+            padding: 24px;
+            border-bottom: 1px solid #e4e4e7;
+        }
+
+        .history-header.mobile {
+            padding: 16px;
+        }
+
+        .history-filters {
+            display: flex;
+            gap: 12px;
+            margin-top: 16px;
+            flex-wrap: wrap;
+        }
+
+        .history-filters.mobile {
+            flex-direction: column;
+        }
+
+        .filter-select {
+            padding: 8px 12px;
+            border: 1px solid #e4e4e7;
+            border-radius: 6px;
+            font-size: 14px;
+            background: white;
+        }
+
+        .history-list {
+            padding: 24px;
+        }
+
+        .history-list.mobile {
+            padding: 16px;
+        }
+
+        .history-group {
+            margin-bottom: 32px;
+        }
+
+        .history-group-title {
+            font-size: 14px;
+            font-weight: 600;
+            color: #71717a;
+            margin-bottom: 12px;
+            text-transform: uppercase;
+        }
+
+        .history-item {
+            background: white;
+            border: 1px solid #e4e4e7;
+            border-radius: 8px;
+            padding: 16px;
+            margin-bottom: 12px;
+        }
+
+        .history-item-header {
+            display: flex;
+            justify-content: space-between;
+            align-items: start;
+            margin-bottom: 8px;
+            flex-wrap: wrap;
+            gap: 8px;
+        }
+
+        .history-item-title {
+            font-size: 16px;
+            font-weight: 500;
+            color: #0a0a0a;
+            flex: 1;
+        }
+
+        .history-item-meta {
+            font-size: 12px;
+            color: #71717a;
+            margin-bottom: 12px;
+        }
+
+        .history-item-actions {
+            display: flex;
+            gap: 8px;
+            flex-wrap: wrap;
+        }
+
+        /* Settings Page */
+        .settings-container {
+            padding: 24px;
+            max-width: 800px;
+            margin: 0 auto;
+        }
+
+        .settings-container.mobile {
+            padding: 16px;
+        }
+
+        .settings-section {
+            background: white;
+            border: 1px solid #e4e4e7;
+            border-radius: 8px;
+            padding: 24px;
+            margin-bottom: 24px;
+        }
+
+        .settings-section.mobile {
+            padding: 16px;
+        }
+
+        .settings-section-title {
+            font-size: 18px;
+            font-weight: 600;
+            margin-bottom: 16px;
+            color: #0a0a0a;
+        }
+
+        .settings-row {
+            margin-bottom: 16px;
+        }
+
+        .settings-label {
+            font-size: 14px;
+            font-weight: 500;
+            margin-bottom: 8px;
+            display: block;
+            color: #0a0a0a;
+        }
+
+        .theme-toggle {
+            display: flex;
+            gap: 8px;
+        }
+
+        .theme-btn {
+            flex: 1;
+            padding: 10px;
+            border: 1px solid #e4e4e7;
+            border-radius: 6px;
+            background: white;
+            cursor: pointer;
+            font-size: 14px;
+            transition: all 0.15s;
+        }
+
+        .theme-btn.active {
+            background: #2563eb;
+            color: white;
+            border-color: #2563eb;
+        }
+
+        .checkbox-group {
+            display: flex;
+            flex-direction: column;
+            gap: 12px;
+        }
+
+        .checkbox-item {
+            display: flex;
+            align-items: center;
+            gap: 8px;
+        }
+
+        .checkbox-item input[type="checkbox"] {
+            width: 18px;
+            height: 18px;
+            cursor: pointer;
+        }
+
+        /* Login Page */
+        .login-container {
+            min-height: 100vh;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            padding: 24px;
+        }
+
+        .login-card {
+            background: white;
+            border-radius: 12px;
+            padding: 40px;
+            max-width: 400px;
+            width: 100%;
+            box-shadow: 0 4px 6px rgba(0,0,0,0.1);
+        }
+
+        .login-card.mobile {
+            padding: 24px;
+        }
+
+        .login-title {
+            text-align: center;
+            font-size: 28px;
+            font-weight: 700;
+            margin-bottom: 8px;
+            color: #0a0a0a;
+        }
+
+        .login-subtitle {
+            text-align: center;
+            font-size: 14px;
+            color: #71717a;
+            margin-bottom: 32px;
+        }
+
+        .form-group {
+            margin-bottom: 20px;
+        }
+
+        .form-label {
+            display: block;
+            font-size: 14px;
+            font-weight: 500;
+            margin-bottom: 8px;
+            color: #0a0a0a;
+        }
+
+        .form-input {
+            width: 100%;
+            padding: 10px 12px;
+            border: 1px solid #e4e4e7;
+            border-radius: 6px;
+            font-size: 14px;
+        }
+
+        .form-input:focus {
+            outline: none;
+            border-color: #2563eb;
+            box-shadow: 0 0 0 3px rgba(37, 99, 235, 0.1);
+        }
+
+        .divider {
+            text-align: center;
+            margin: 24px 0;
+            color: #71717a;
+            font-size: 14px;
+            position: relative;
+        }
+
+        .divider::before,
+        .divider::after {
+            content: '';
+            position: absolute;
+            top: 50%;
+            width: 40%;
+            height: 1px;
+            background: #e4e4e7;
+        }
+
+        .divider::before {
+            left: 0;
+        }
+
+        .divider::after {
+            right: 0;
+        }
+
+        .social-buttons {
+            display: flex;
+            flex-direction: column;
+            gap: 12px;
+        }
+
+        .social-btn {
+            padding: 10px;
+            border: 1px solid #e4e4e7;
+            border-radius: 6px;
+            background: white;
+            cursor: pointer;
+            font-size: 14px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            gap: 8px;
+            transition: all 0.15s;
+        }
+
+        .social-btn:hover {
+            background: #f4f4f5;
+        }
+
+        .signup-link {
+            text-align: center;
+            margin-top: 24px;
+            font-size: 14px;
+            color: #71717a;
+        }
+
+        .signup-link a {
+            color: #2563eb;
+            text-decoration: none;
+        }
+
+        .signup-link a:hover {
+            text-decoration: underline;
+        }
+
+        /* Hidden class for breakpoint switching */
+        .hidden {
+            display: none;
+        }
+
+        .description {
+            color: #71717a;
+            font-size: 14px;
+            margin-bottom: 20px;
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <h1>Stock Image Helper - Responsive Mockups</h1>
+        <p class="description">Interactive mockups showing how the main pages will look across different screen sizes. Click the breakpoint buttons to switch views.</p>
+
+        <!-- Breakpoint Selector -->
+        <div class="breakpoint-selector">
+            <button class="breakpoint-btn active" onclick="showBreakpoint('desktop')">Desktop (1280px+)</button>
+            <button class="breakpoint-btn" onclick="showBreakpoint('tablet')">Tablet (768px)</button>
+            <button class="breakpoint-btn" onclick="showBreakpoint('mobile')">Mobile (375px)</button>
+        </div>
+
+        <!-- Main Search Page -->
+        <div class="mockup-container">
+            <h2>1. Main Search Page</h2>
+            
+            <!-- Desktop View -->
+            <div class="viewport desktop" id="search-desktop">
+                <div class="header">
+                    <div class="logo">Stock Image Helper</div>
+                    <div class="nav">
+                        <a href="#" class="nav-item">History</a>
+                        <a href="#" class="nav-item">Settings</a>
+                        <div class="nav-icon">👤</div>
+                    </div>
+                </div>
+                <div class="search-container">
+                    <div class="search-title">Describe the image you're looking for...</div>
+                    <div class="brief-input-container">
+                        <textarea class="brief-textarea" placeholder="Ford truck in a rugged outdoor setting, sunrise lighting, cinematic feel, wide landscape shot. Should evoke adventure and reliability."></textarea>
+                        <div class="controls-row">
+                            <select class="model-select">
+                                <option>GPT-4o</option>
+                                <option>GPT-4o-mini</option>
+                                <option>Claude 3.5 Sonnet</option>
+                                <option>Gemini 1.5 Pro</option>
+                            </select>
+                            <button class="btn-primary">Generate Queries</button>
+                        </div>
+                    </div>
+                    <div class="brief-analysis">
+                        <div class="analysis-title">Brief Analysis</div>
+                        <div class="analysis-tags">
+                            <span class="analysis-tag">Subject: pickup truck</span>
+                            <span class="analysis-tag">Setting: mountain outdoor</span>
+                            <span class="analysis-tag">Lighting: sunrise golden hr</span>
+                            <span class="analysis-tag">Mood: adventure freedom</span>
+                        </div>
+                    </div>
+                    <div class="view-toggle">
+                        <button class="view-btn active">Cards</button>
+                        <button class="view-btn">Table</button>
+                        <button class="view-btn">JSON</button>
+                    </div>
+                    <div class="platform-section">
+                        <div class="platform-header">
+                            <span class="platform-badge getty">Getty Images</span>
+                        </div>
+                        <div class="result-card">
+                            <div class="result-query">pickup truck sunrise mountain landscape cinematic</div>
+                            <div class="result-reasoning">Combines subject with setting and lighting</div>
+                            <div class="result-actions">
+                                <button class="btn-secondary">Copy</button>
+                                <a href="#" class="btn-link">Open in Getty →</a>
+                                <button class="favorite-btn">♡</button>
+                            </div>
+                        </div>
+                        <div class="result-card">
+                            <div class="result-query">truck adventure outdoor golden hour wide shot</div>
+                            <div class="result-reasoning">Alternative focusing on mood and style</div>
+                            <div class="result-actions">
+                                <button class="btn-secondary">Copy</button>
+                                <a href="#" class="btn-link">Open in Getty →</a>
+                                <button class="favorite-btn">♡</button>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="platform-section">
+                        <div class="platform-header">
+                            <span class="platform-badge shutterstock">Shutterstock</span>
+                        </div>
+                        <div class="result-card">
+                            <div class="result-query">pickup truck mountain sunrise cinematic</div>
+                            <div class="result-reasoning">Shutterstock prefers shorter, focused queries</div>
+                            <div class="result-actions">
+                                <button class="btn-secondary">Copy</button>
+                                <a href="#" class="btn-link">Open in Shutterstock →</a>
+                                <button class="favorite-btn">♡</button>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="refine-section">
+                        <div class="analysis-title">Refine your search...</div>
+                        <div class="refine-input-row">
+                            <input type="text" class="refine-input" placeholder="Make them more dramatic">
+                            <button class="btn-primary">Send</button>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Tablet View -->
+            <div class="viewport tablet hidden" id="search-tablet">
+                <div class="header">
+                    <div class="logo">Stock Image Helper</div>
+                    <div class="nav">
+                        <div class="nav-icon">📋</div>
+                        <div class="nav-icon">⚙️</div>
+                        <div class="nav-icon">👤</div>
+                    </div>
+                </div>
+                <div class="search-container">
+                    <div class="search-title">Describe the image...</div>
+                    <div class="brief-input-container">
+                        <textarea class="brief-textarea" placeholder="Ford truck in a rugged outdoor setting, sunrise lighting..."></textarea>
+                        <div class="controls-row">
+                            <select class="model-select">
+                                <option>GPT-4o</option>
+                            </select>
+                            <button class="btn-primary">Generate</button>
+                        </div>
+                    </div>
+                    <div class="brief-analysis">
+                        <div class="analysis-title">Brief Analysis</div>
+                        <div class="analysis-tags">
+                            <span class="analysis-tag">truck</span>
+                            <span class="analysis-tag">mountain</span>
+                            <span class="analysis-tag">sunrise</span>
+                            <span class="analysis-tag">adventure</span>
+                        </div>
+                    </div>
+                    <div class="view-toggle">
+                        <button class="view-btn active">Cards</button>
+                        <button class="view-btn">Table</button>
+                        <button class="view-btn">JSON</button>
+                    </div>
+                    <div class="platform-section">
+                        <div class="platform-header">
+                            <span class="platform-badge getty">Getty Images</span>
+                        </div>
+                        <div class="result-card">
+                            <div class="result-query">pickup truck sunrise mountain landscape</div>
+                            <div class="result-reasoning">Combines subject with setting</div>
+                            <div class="result-actions">
+                                <button class="btn-secondary">Copy</button>
+                                <a href="#" class="btn-link">Open →</a>
+                                <button class="favorite-btn">♡</button>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="refine-section">
+                        <div class="analysis-title">Refine...</div>
+                        <div class="refine-input-row">
+                            <input type="text" class="refine-input" placeholder="Make more dramatic">
+                            <button class="btn-primary">Send</button>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Mobile View -->
+            <div class="viewport mobile hidden" id="search-mobile">
+                <div class="header mobile">
+                    <div class="logo">Stock Image Helper</div>
+                    <div class="nav mobile">
+                        <div class="nav-icon">☰</div>
+                    </div>
+                </div>
+                <div class="search-container mobile">
+                    <div class="search-title">Describe the image...</div>
+                    <div class="brief-input-container mobile">
+                        <textarea class="brief-textarea" placeholder="Ford truck in mountains, sunrise..."></textarea>
+                        <div class="controls-row mobile">
+                            <select class="model-select">
+                                <option>GPT-4o</option>
+                            </select>
+                            <button class="btn-primary mobile">Generate</button>
+                        </div>
+                    </div>
+                    <div class="brief-analysis mobile">
+                        <div class="analysis-title">Brief Analysis</div>
+                        <div class="analysis-tags">
+                            <span class="analysis-tag">truck</span>
+                            <span class="analysis-tag">mountain</span>
+                            <span class="analysis-tag">sunrise</span>
+                            <span class="analysis-tag">adventure</span>
+                        </div>
+                    </div>
+                    <div class="view-toggle">
+                        <button class="view-btn active">Cards</button>
+                        <button class="view-btn">Table</button>
+                    </div>
+                    <div class="platform-section">
+                        <div class="platform-header">
+                            <span class="platform-badge getty">Getty</span>
+                        </div>
+                        <div class="result-card">
+                            <div class="result-query">pickup truck sunrise mountain</div>
+                            <div class="result-reasoning">Combines subject with setting</div>
+                            <div class="result-actions">
+                                <button class="btn-secondary">Copy</button>
+                                <a href="#" class="btn-link">Open →</a>
+                                <button class="favorite-btn">♡</button>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="refine-section mobile">
+                        <div class="analysis-title">Refine...</div>
+                        <div class="refine-input-row mobile">
+                            <input type="text" class="refine-input" placeholder="Make more dramatic">
+                            <button class="btn-primary mobile">Send</button>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <!-- History Page -->
+        <div class="mockup-container">
+            <h2>2. History Page</h2>
+            
+            <!-- Desktop View -->
+            <div class="viewport desktop" id="history-desktop">
+                <div class="header">
+                    <div class="logo">Stock Image Helper</div>
+                    <div class="nav">
+                        <a href="#" class="nav-item">History</a>
+                        <a href="#" class="nav-item">Settings</a>
+                        <div class="nav-icon">👤</div>
+                    </div>
+                </div>
+                <div class="history-header">
+                    <h2>Search History</h2>
+                    <div class="history-filters">
+                        <select class="filter-select">
+                            <option>All</option>
+                            <option>This Week</option>
+                            <option>This Month</option>
+                        </select>
+                        <input type="text" class="filter-select" placeholder="Search history...">
+                    </div>
+                </div>
+                <div class="history-list">
+                    <div class="history-group">
+                        <div class="history-group-title">Today</div>
+                        <div class="history-item">
+                            <div class="history-item-header">
+                                <div class="history-item-title">Ford truck in mountains, sunrise...</div>
+                            </div>
+                            <div class="history-item-meta">3:05 PM • GPT-4o • 6 queries</div>
+                            <div class="history-item-actions">
+                                <button class="btn-secondary">View</button>
+                                <button class="btn-secondary">Reuse</button>
+                                <button class="btn-secondary">Delete</button>
+                            </div>
+                        </div>
+                        <div class="history-item">
+                            <div class="history-item-header">
+                                <div class="history-item-title">Nike running shoes on track...</div>
+                            </div>
+                            <div class="history-item-meta">11:30 AM • Claude • 6 queries</div>
+                            <div class="history-item-actions">
+                                <button class="btn-secondary">View</button>
+                                <button class="btn-secondary">Reuse</button>
+                                <button class="btn-secondary">Delete</button>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="history-group">
+                        <div class="history-group-title">Yesterday</div>
+                        <div class="history-item">
+                            <div class="history-item-header">
+                                <div class="history-item-title">Coffee shop interior, warm lighting...</div>
+                            </div>
+                            <div class="history-item-meta">4:15 PM • GPT-4o • 6 queries</div>
+                            <div class="history-item-actions">
+                                <button class="btn-secondary">View</button>
+                                <button class="btn-secondary">Reuse</button>
+                                <button class="btn-secondary">Delete</button>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Mobile View -->
+            <div class="viewport mobile hidden" id="history-mobile">
+                <div class="header mobile">
+                    <div class="logo">Stock Image Helper</div>
+                    <div class="nav mobile">
+                        <div class="nav-icon">☰</div>
+                    </div>
+                </div>
+                <div class="history-header mobile">
+                    <h2>History</h2>
+                    <div class="history-filters mobile">
+                        <select class="filter-select">
+                            <option>All</option>
+                            <option>This Week</option>
+                        </select>
+                        <input type="text" class="filter-select" placeholder="Search...">
+                    </div>
+                </div>
+                <div class="history-list mobile">
+                    <div class="history-group">
+                        <div class="history-group-title">Today</div>
+                        <div class="history-item">
+                            <div class="history-item-title">Ford truck in mountains...</div>
+                            <div class="history-item-meta">3:05 PM • GPT-4o • 6 queries</div>
+                            <div class="history-item-actions">
+                                <button class="btn-secondary">View</button>
+                                <button class="btn-secondary">Reuse</button>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <!-- Settings Page -->
+        <div class="mockup-container">
+            <h2>3. Settings Page</h2>
+            
+            <!-- Desktop View -->
+            <div class="viewport desktop" id="settings-desktop">
+                <div class="header">
+                    <div class="logo">Stock Image Helper</div>
+                    <div class="nav">
+                        <a href="#" class="nav-item">History</a>
+                        <a href="#" class="nav-item">Settings</a>
+                        <div class="nav-icon">👤</div>
+                    </div>
+                </div>
+                <div class="settings-container">
+                    <h2>Settings</h2>
+                    <div class="settings-section">
+                        <div class="settings-section-title">Appearance</div>
+                        <div class="settings-row">
+                            <label class="settings-label">Theme</label>
+                            <div class="theme-toggle">
+                                <button class="theme-btn">Light</button>
+                                <button class="theme-btn active">Dark</button>
+                                <button class="theme-btn">System</button>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="settings-section">
+                        <div class="settings-section-title">Default Model</div>
+                        <div class="settings-row">
+                            <select class="model-select" style="width: 100%;">
+                                <option>GPT-4o (Best quality)</option>
+                                <option>GPT-4o-mini (Faster)</option>
+                                <option>Claude 3.5 Sonnet</option>
+                                <option>Gemini 1.5 Pro</option>
+                            </select>
+                        </div>
+                    </div>
+                    <div class="settings-section">
+                        <div class="settings-section-title">Default Platforms</div>
+                        <div class="checkbox-group">
+                            <div class="checkbox-item">
+                                <input type="checkbox" id="getty" checked>
+                                <label for="getty">Getty Images</label>
+                            </div>
+                            <div class="checkbox-item">
+                                <input type="checkbox" id="shutterstock" checked>
+                                <label for="shutterstock">Shutterstock</label>
+                            </div>
+                            <div class="checkbox-item">
+                                <input type="checkbox" id="adobe" checked>
+                                <label for="adobe">Adobe Stock</label>
+                            </div>
+                            <div class="checkbox-item">
+                                <input type="checkbox" id="unsplash">
+                                <label for="unsplash">Unsplash (Free)</label>
+                            </div>
+                            <div class="checkbox-item">
+                                <input type="checkbox" id="pexels">
+                                <label for="pexels">Pexels (Free)</label>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="settings-section">
+                        <div class="settings-section-title">Account</div>
+                        <div class="settings-row">
+                            <div class="settings-label">Email: daniel@vml.com</div>
+                            <div class="settings-label" style="margin-top: 8px;">Signed in with: Google</div>
+                            <button class="btn-secondary" style="margin-top: 16px;">Sign Out</button>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Mobile View -->
+            <div class="viewport mobile hidden" id="settings-mobile">
+                <div class="header mobile">
+                    <div class="logo">Stock Image Helper</div>
+                    <div class="nav mobile">
+                        <div class="nav-icon">☰</div>
+                    </div>
+                </div>
+                <div class="settings-container mobile">
+                    <h2>Settings</h2>
+                    <div class="settings-section mobile">
+                        <div class="settings-section-title">Appearance</div>
+                        <div class="theme-toggle">
+                            <button class="theme-btn">Light</button>
+                            <button class="theme-btn active">Dark</button>
+                            <button class="theme-btn">System</button>
+                        </div>
+                    </div>
+                    <div class="settings-section mobile">
+                        <div class="settings-section-title">Default Model</div>
+                        <select class="model-select" style="width: 100%;">
+                            <option>GPT-4o</option>
+                        </select>
+                    </div>
+                    <div class="settings-section mobile">
+                        <div class="settings-section-title">Platforms</div>
+                        <div class="checkbox-group">
+                            <div class="checkbox-item">
+                                <input type="checkbox" id="getty-m" checked>
+                                <label for="getty-m">Getty Images</label>
+                            </div>
+                            <div class="checkbox-item">
+                                <input type="checkbox" id="shutterstock-m" checked>
+                                <label for="shutterstock-m">Shutterstock</label>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <!-- Login Page -->
+        <div class="mockup-container">
+            <h2>4. Login Page</h2>
+            
+            <!-- Desktop View -->
+            <div class="viewport desktop" id="login-desktop">
+                <div class="login-container">
+                    <div class="login-card">
+                        <div class="login-title">Stock Image Helper</div>
+                        <div class="login-subtitle">Sign in to continue</div>
+                        <div class="form-group">
+                            <label class="form-label">Email</label>
+                            <input type="email" class="form-input" placeholder="your@email.com">
+                        </div>
+                        <div class="form-group">
+                            <label class="form-label">Password</label>
+                            <input type="password" class="form-input" placeholder="••••••••">
+                        </div>
+                        <button class="btn-primary" style="width: 100%;">Sign In</button>
+                        <div class="divider">OR</div>
+                        <div class="social-buttons">
+                            <button class="social-btn">🔵 Sign in with Google</button>
+                            <button class="social-btn">🔷 Sign in with Microsoft</button>
+                            <button class="social-btn">⚫ Sign in with GitHub</button>
+                        </div>
+                        <div class="signup-link">
+                            Don't have an account? <a href="#">Sign up</a>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Mobile View -->
+            <div class="viewport mobile hidden" id="login-mobile">
+                <div class="login-container">
+                    <div class="login-card mobile">
+                        <div class="login-title">Stock Image Helper</div>
+                        <div class="login-subtitle">Sign in</div>
+                        <div class="form-group">
+                            <label class="form-label">Email</label>
+                            <input type="email" class="form-input" placeholder="your@email.com">
+                        </div>
+                        <div class="form-group">
+                            <label class="form-label">Password</label>
+                            <input type="password" class="form-input" placeholder="••••••••">
+                        </div>
+                        <button class="btn-primary" style="width: 100%;">Sign In</button>
+                        <div class="divider">OR</div>
+                        <div class="social-buttons">
+                            <button class="social-btn">🔵 Google</button>
+                            <button class="social-btn">🔷 Microsoft</button>
+                            <button class="social-btn">⚫ GitHub</button>
+                        </div>
+                        <div class="signup-link">
+                            Don't have an account? <a href="#">Sign up</a>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <script>
+        function showBreakpoint(breakpoint) {
+            // Update buttons
+            document.querySelectorAll('.breakpoint-btn').forEach(btn => {
+                btn.classList.remove('active');
+            });
+            event.target.classList.add('active');
+
+            // Show/hide views
+            const views = document.querySelectorAll('.viewport');
+            views.forEach(view => {
+                view.classList.add('hidden');
+            });
+
+            // Show selected breakpoint views
+            const selectedViews = document.querySelectorAll(`.viewport.${breakpoint}`);
+            selectedViews.forEach(view => {
+                view.classList.remove('hidden');
+            });
+        }
+    </script>
+</body>
+</html>

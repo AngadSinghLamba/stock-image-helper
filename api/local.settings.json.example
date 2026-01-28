@@ -1,0 +1,15 @@
+{
+  "IsEncrypted": false,
+  "Values": {
+    "AzureWebJobsStorage": "",
+    "FUNCTIONS_WORKER_RUNTIME": "python",
+    "COSMOS_CONNECTION_STRING": "your-connection-string",
+    "OPENAI_API_KEY": "sk-your-openai-key",
+    "ANTHROPIC_API_KEY": "sk-ant-your-anthropic-key",
+    "GOOGLE_AI_API_KEY": "AIza-your-google-key"
+  },
+  "Host": {
+    "CORS": "*",
+    "CORSCredentials": false
+  }
+}

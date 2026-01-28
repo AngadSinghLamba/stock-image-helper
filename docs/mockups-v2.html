@@ -1,0 +1,1842 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Stock Image Helper - Design Language V2</title>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet">
+    <style>
+        /* ============================================
+           CSS Custom Properties - Design Tokens
+           ============================================ */
+        :root {
+            /* Primary Colors - Cosmic Gradient */
+            --color-deep-blue: #0E21A0;
+            --color-purple: #4D2FB2;
+            --color-magenta: #B153D7;
+            --color-pink: #F375C2;
+            
+            /* Neutral Palette - Light Mode */
+            --color-canvas: #FAFAFE;
+            --color-surface: #F5F5FA;
+            --color-surface-elevated: #FFFFFF;
+            --color-border: #E4E4EE;
+            --color-border-subtle: #EDEDF5;
+            --color-text-primary: #1A1A2E;
+            --color-text-secondary: #6B6B80;
+            --color-text-muted: #9999AA;
+            
+            /* Gradients */
+            --gradient-primary: linear-gradient(135deg, #0E21A0 0%, #4D2FB2 35%, #B153D7 70%, #F375C2 100%);
+            --gradient-accent: linear-gradient(135deg, #4D2FB2 0%, #B153D7 50%, #F375C2 100%);
+            --gradient-pink: linear-gradient(135deg, #B153D7 0%, #F375C2 100%);
+            --gradient-subtle: linear-gradient(135deg, rgba(77, 47, 178, 0.03) 0%, rgba(243, 117, 194, 0.03) 100%);
+            --gradient-glow: linear-gradient(120deg, rgba(177, 83, 215, 0.12) 0%, transparent 60%);
+            
+            /* Typography */
+            --font-display: 'Inter', system-ui, sans-serif;
+            --font-body: 'Inter', system-ui, sans-serif;
+            --font-mono: 'SF Mono', 'Fira Code', monospace;
+            
+            /* Spacing */
+            --space-1: 4px;
+            --space-2: 8px;
+            --space-3: 12px;
+            --space-4: 16px;
+            --space-5: 20px;
+            --space-6: 24px;
+            --space-8: 32px;
+            --space-10: 40px;
+            --space-12: 48px;
+            
+            /* Border Radius */
+            --radius-sm: 6px;
+            --radius-md: 8px;
+            --radius-lg: 12px;
+            --radius-xl: 16px;
+            --radius-2xl: 24px;
+            --radius-full: 9999px;
+            
+            /* Shadows */
+            --shadow-sm: 0 1px 2px rgba(26, 26, 46, 0.05);
+            --shadow-md: 0 4px 12px rgba(26, 26, 46, 0.08);
+            --shadow-lg: 0 8px 24px rgba(26, 26, 46, 0.12);
+            --shadow-xl: 0 16px 48px rgba(26, 26, 46, 0.16);
+            --shadow-glow: 0 4px 20px rgba(177, 83, 215, 0.3);
+            --shadow-glow-lg: 0 8px 32px rgba(177, 83, 215, 0.4);
+            
+            /* Timing */
+            --duration-fast: 150ms;
+            --duration-normal: 200ms;
+            --duration-slow: 300ms;
+            --ease-default: cubic-bezier(0.4, 0, 0.2, 1);
+            --ease-bounce: cubic-bezier(0.34, 1.56, 0.64, 1);
+        }
+        
+        /* Dark Mode */
+        [data-theme="dark"] {
+            --color-canvas: #0D0D1A;
+            --color-surface: #16162A;
+            --color-surface-elevated: #1E1E35;
+            --color-border: #2A2A45;
+            --color-border-subtle: #222238;
+            --color-text-primary: #F0F0F8;
+            --color-text-secondary: #A0A0B8;
+            --color-text-muted: #6060708;
+            --color-magenta: #C875E0;
+            --gradient-subtle: linear-gradient(135deg, rgba(77, 47, 178, 0.05) 0%, rgba(243, 117, 194, 0.05) 100%);
+        }
+
+        /* ============================================
+           Base Styles
+           ============================================ */
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: var(--font-body);
+            background: var(--color-canvas);
+            color: var(--color-text-primary);
+            line-height: 1.6;
+            transition: background-color var(--duration-normal) var(--ease-default),
+                        color var(--duration-normal) var(--ease-default);
+        }
+
+        /* ============================================
+           Demo Container
+           ============================================ */
+        .demo-container {
+            max-width: 1400px;
+            margin: 0 auto;
+            padding: var(--space-8);
+        }
+
+        .demo-header {
+            text-align: center;
+            margin-bottom: var(--space-12);
+        }
+
+        .demo-title {
+            font-size: 42px;
+            font-weight: 700;
+            letter-spacing: -0.02em;
+            margin-bottom: var(--space-2);
+            background: var(--gradient-accent);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            background-clip: text;
+        }
+
+        .demo-subtitle {
+            font-size: 16px;
+            color: var(--color-text-secondary);
+            margin-bottom: var(--space-6);
+        }
+
+        /* Controls */
+        .demo-controls {
+            display: flex;
+            gap: var(--space-3);
+            justify-content: center;
+            flex-wrap: wrap;
+            margin-bottom: var(--space-8);
+        }
+
+        .control-btn {
+            padding: 10px 20px;
+            background: var(--color-surface);
+            border: 1px solid var(--color-border);
+            border-radius: var(--radius-md);
+            font-size: 14px;
+            font-weight: 500;
+            color: var(--color-text-primary);
+            cursor: pointer;
+            transition: all var(--duration-fast) var(--ease-default);
+        }
+
+        .control-btn:hover {
+            border-color: var(--color-purple);
+            color: var(--color-purple);
+        }
+
+        .control-btn.active {
+            background: var(--gradient-accent);
+            color: white;
+            border-color: transparent;
+        }
+
+        /* Section */
+        .demo-section {
+            margin-bottom: var(--space-12);
+        }
+
+        .section-title {
+            font-size: 14px;
+            font-weight: 600;
+            text-transform: uppercase;
+            letter-spacing: 0.05em;
+            color: var(--color-text-secondary);
+            margin-bottom: var(--space-6);
+        }
+
+        /* ============================================
+           Viewport Frame
+           ============================================ */
+        .viewport-frame {
+            background: var(--color-surface);
+            border: 1px solid var(--color-border);
+            border-radius: var(--radius-2xl);
+            overflow: hidden;
+            transition: all var(--duration-slow) var(--ease-default);
+            margin: 0 auto;
+        }
+
+        .viewport-frame.desktop {
+            width: 100%;
+            max-width: 1200px;
+        }
+
+        .viewport-frame.tablet {
+            width: 768px;
+        }
+
+        .viewport-frame.mobile {
+            width: 375px;
+        }
+
+        .hidden {
+            display: none !important;
+        }
+
+        /* ============================================
+           Header
+           ============================================ */
+        .app-header {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            padding: var(--space-4) var(--space-6);
+            background: var(--color-surface-elevated);
+            border-bottom: 1px solid var(--color-border);
+        }
+
+        .logo {
+            display: flex;
+            align-items: center;
+            gap: var(--space-2);
+        }
+
+        .logo-mark {
+            position: relative;
+            width: 32px;
+            height: 32px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+        }
+
+        .logo-mark::before,
+        .logo-mark::after {
+            content: '';
+            position: absolute;
+            width: 10px;
+            height: 10px;
+            border: 2px solid var(--color-purple);
+        }
+
+        .logo-mark::before {
+            top: 2px;
+            left: 2px;
+            border-right: none;
+            border-bottom: none;
+        }
+
+        .logo-mark::after {
+            bottom: 2px;
+            right: 2px;
+            border-left: none;
+            border-top: none;
+        }
+
+        .logo-letter {
+            font-size: 18px;
+            font-weight: 700;
+            background: var(--gradient-accent);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            background-clip: text;
+        }
+
+        .logo-text {
+            font-size: 16px;
+            font-weight: 600;
+            color: var(--color-text-primary);
+        }
+
+        .nav {
+            display: flex;
+            align-items: center;
+            gap: var(--space-2);
+        }
+
+        .nav-item {
+            padding: var(--space-2) var(--space-3);
+            font-size: 14px;
+            font-weight: 500;
+            color: var(--color-text-secondary);
+            text-decoration: none;
+            border-radius: var(--radius-md);
+            transition: all var(--duration-fast) var(--ease-default);
+            cursor: pointer;
+        }
+
+        .nav-item:hover {
+            background: rgba(77, 47, 178, 0.08);
+            color: var(--color-purple);
+        }
+
+        .nav-avatar {
+            width: 32px;
+            height: 32px;
+            border-radius: var(--radius-full);
+            background: var(--gradient-accent);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            color: white;
+            font-size: 14px;
+            font-weight: 600;
+            margin-left: var(--space-2);
+        }
+
+        .nav-hamburger {
+            display: none;
+            width: 32px;
+            height: 32px;
+            align-items: center;
+            justify-content: center;
+            cursor: pointer;
+            border-radius: var(--radius-md);
+        }
+
+        .nav-hamburger:hover {
+            background: rgba(77, 47, 178, 0.08);
+        }
+
+        /* ============================================
+           Main Content - Bento Grid
+           ============================================ */
+        .main-content {
+            padding: var(--space-6);
+            background: var(--color-canvas);
+        }
+
+        .bento-grid {
+            display: grid;
+            grid-template-columns: repeat(12, 1fr);
+            gap: var(--space-5);
+            max-width: 1100px;
+            margin: 0 auto;
+        }
+
+        /* ============================================
+           Hero Card - Brief Input
+           ============================================ */
+        .card-hero {
+            grid-column: span 8;
+            background: var(--color-surface-elevated);
+            border: 1px solid var(--color-border);
+            border-radius: var(--radius-2xl);
+            padding: var(--space-8);
+            position: relative;
+            overflow: hidden;
+            transition: all var(--duration-normal) var(--ease-default);
+        }
+
+        .card-hero::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: 0;
+            right: 0;
+            bottom: 0;
+            background: var(--gradient-warm-subtle);
+            pointer-events: none;
+        }
+
+        .card-hero:focus-within {
+            border-color: var(--color-purple);
+            box-shadow: var(--shadow-lg), 0 0 0 4px rgba(77, 47, 178, 0.1);
+        }
+
+        .hero-content {
+            position: relative;
+            z-index: 1;
+        }
+
+        /* Viewfinder Frame */
+        .viewfinder {
+            position: relative;
+            padding: var(--space-6);
+            margin-bottom: var(--space-5);
+        }
+
+        .viewfinder::before,
+        .viewfinder::after {
+            content: '';
+            position: absolute;
+            width: 20px;
+            height: 20px;
+            border: 2px solid var(--color-purple);
+            opacity: 0.5;
+        }
+
+        .viewfinder::before {
+            top: 0;
+            left: 0;
+            border-right: none;
+            border-bottom: none;
+        }
+
+        .viewfinder::after {
+            top: 0;
+            right: 0;
+            border-left: none;
+            border-bottom: none;
+        }
+
+        .viewfinder-bottom::before,
+        .viewfinder-bottom::after {
+            content: '';
+            position: absolute;
+            width: 20px;
+            height: 20px;
+            border: 2px solid var(--color-purple);
+            opacity: 0.5;
+        }
+
+        .viewfinder-bottom::before {
+            bottom: 0;
+            left: 0;
+            border-right: none;
+            border-top: none;
+        }
+
+        .viewfinder-bottom::after {
+            bottom: 0;
+            right: 0;
+            border-left: none;
+            border-top: none;
+        }
+
+        .hero-label {
+            font-size: 12px;
+            font-weight: 600;
+            text-transform: uppercase;
+            letter-spacing: 0.05em;
+            color: var(--color-text-secondary);
+            margin-bottom: var(--space-3);
+        }
+
+        .hero-title {
+            font-size: 24px;
+            font-weight: 600;
+            color: var(--color-text-primary);
+            margin-bottom: var(--space-2);
+        }
+
+        .hero-subtitle {
+            font-size: 14px;
+            color: var(--color-text-secondary);
+        }
+
+        .textarea-brief {
+            width: 100%;
+            min-height: 140px;
+            background: var(--color-canvas);
+            color: var(--color-text-primary);
+            font-family: var(--font-body);
+            font-size: 16px;
+            line-height: 1.6;
+            padding: var(--space-4);
+            border: 1px solid var(--color-border);
+            border-radius: var(--radius-lg);
+            resize: vertical;
+            transition: all var(--duration-fast) var(--ease-default);
+        }
+
+        .textarea-brief::placeholder {
+            color: var(--color-text-muted);
+        }
+
+        .textarea-brief:focus {
+            outline: none;
+            border-color: var(--color-purple);
+            box-shadow: 0 0 0 4px rgba(77, 47, 178, 0.1);
+        }
+
+        .btn-generate {
+            width: 100%;
+            padding: 16px 28px;
+            background: var(--gradient-accent);
+            color: white;
+            font-family: var(--font-body);
+            font-size: 15px;
+            font-weight: 600;
+            border: none;
+            border-radius: var(--radius-lg);
+            cursor: pointer;
+            box-shadow: var(--shadow-glow);
+            transition: all var(--duration-normal) var(--ease-default);
+        }
+
+        .btn-generate:hover {
+            transform: translateY(-2px);
+            box-shadow: var(--shadow-glow-lg);
+        }
+
+        .btn-generate:active {
+            transform: scale(0.98);
+        }
+
+        /* ============================================
+           Sidebar Cards
+           ============================================ */
+        .sidebar-stack {
+            grid-column: span 4;
+            display: flex;
+            flex-direction: column;
+            gap: var(--space-5);
+        }
+
+        .card-sidebar {
+            background: var(--color-surface-elevated);
+            border: 1px solid var(--color-border);
+            border-radius: var(--radius-xl);
+            padding: var(--space-5);
+            transition: all var(--duration-fast) var(--ease-default);
+        }
+
+        .card-sidebar:hover {
+            border-color: var(--color-border);
+            box-shadow: var(--shadow-md);
+        }
+
+        .sidebar-title {
+            font-size: 12px;
+            font-weight: 600;
+            text-transform: uppercase;
+            letter-spacing: 0.05em;
+            color: var(--color-text-secondary);
+            margin-bottom: var(--space-3);
+        }
+
+        .model-select {
+            width: 100%;
+            padding: var(--space-3) var(--space-4);
+            background: var(--color-surface);
+            color: var(--color-text-primary);
+            font-family: var(--font-body);
+            font-size: 14px;
+            border: 1px solid var(--color-border);
+            border-radius: var(--radius-md);
+            cursor: pointer;
+            transition: all var(--duration-fast) var(--ease-default);
+        }
+
+        .model-select:focus {
+            outline: none;
+            border-color: var(--color-purple);
+        }
+
+        .platform-list {
+            display: flex;
+            flex-direction: column;
+            gap: var(--space-3);
+        }
+
+        .platform-item {
+            display: flex;
+            align-items: center;
+            gap: var(--space-3);
+            font-size: 14px;
+            color: var(--color-text-primary);
+        }
+
+        .platform-item input[type="checkbox"] {
+            width: 18px;
+            height: 18px;
+            accent-color: var(--color-purple);
+            cursor: pointer;
+        }
+
+        .platform-free {
+            font-size: 11px;
+            color: var(--color-text-muted);
+            margin-left: var(--space-1);
+        }
+
+        /* ============================================
+           Analysis Tags
+           ============================================ */
+        .analysis-row {
+            grid-column: span 12;
+            display: grid;
+            grid-template-columns: repeat(4, 1fr);
+            gap: var(--space-4);
+        }
+
+        .analysis-tag {
+            background: var(--color-surface-elevated);
+            border: 1px solid var(--color-border);
+            border-radius: var(--radius-lg);
+            padding: var(--space-4);
+            transition: all var(--duration-fast) var(--ease-default);
+        }
+
+        .analysis-tag:hover {
+            border-color: rgba(77, 47, 178, 0.3);
+            background: rgba(77, 47, 178, 0.02);
+        }
+
+        .tag-label {
+            font-size: 11px;
+            font-weight: 600;
+            text-transform: uppercase;
+            letter-spacing: 0.05em;
+            color: var(--color-text-secondary);
+            margin-bottom: var(--space-1);
+        }
+
+        .tag-value {
+            font-size: 14px;
+            font-weight: 500;
+            color: var(--color-text-primary);
+        }
+
+        /* ============================================
+           Results Section
+           ============================================ */
+        .results-section {
+            grid-column: span 12;
+        }
+
+        .results-header {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-bottom: var(--space-5);
+        }
+
+        .results-title {
+            font-size: 18px;
+            font-weight: 600;
+            color: var(--color-text-primary);
+        }
+
+        .view-toggle {
+            display: flex;
+            gap: var(--space-1);
+            background: var(--color-surface);
+            padding: var(--space-1);
+            border-radius: var(--radius-md);
+        }
+
+        .view-btn {
+            padding: var(--space-2) var(--space-3);
+            font-size: 13px;
+            font-weight: 500;
+            color: var(--color-text-secondary);
+            background: transparent;
+            border: none;
+            border-radius: var(--radius-sm);
+            cursor: pointer;
+            transition: all var(--duration-fast) var(--ease-default);
+        }
+
+        .view-btn:hover {
+            color: var(--color-text-primary);
+        }
+
+        .view-btn.active {
+            background: var(--color-surface-elevated);
+            color: var(--color-purple);
+            box-shadow: var(--shadow-sm);
+        }
+
+        /* Platform Results */
+        .platform-results {
+            margin-bottom: var(--space-6);
+        }
+
+        .platform-header {
+            display: flex;
+            align-items: center;
+            gap: var(--space-3);
+            margin-bottom: var(--space-4);
+        }
+
+        .platform-badge {
+            display: inline-flex;
+            align-items: center;
+            gap: var(--space-2);
+            padding: 6px 14px;
+            border-radius: var(--radius-sm);
+            font-size: 13px;
+            font-weight: 600;
+            color: white;
+        }
+
+        .platform-badge-getty {
+            background: linear-gradient(135deg, #0E21A0, #4D2FB2);
+        }
+
+        .platform-badge-shutterstock {
+            background: linear-gradient(135deg, #4D2FB2, #B153D7);
+        }
+
+        .platform-badge-adobe {
+            background: linear-gradient(135deg, #B153D7, #F375C2);
+        }
+
+        /* Result Card */
+        .result-card {
+            background: var(--color-surface-elevated);
+            border: 1px solid var(--color-border);
+            border-radius: var(--radius-lg);
+            padding: var(--space-5);
+            margin-bottom: var(--space-3);
+            position: relative;
+            overflow: hidden;
+            transition: all var(--duration-normal) var(--ease-default);
+        }
+
+        .result-card::after {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: -100%;
+            width: 100%;
+            height: 100%;
+            background: var(--gradient-light-leak);
+            opacity: 0;
+            transition: all 0.4s ease;
+            pointer-events: none;
+        }
+
+        .result-card:hover {
+            transform: translateY(-4px);
+            border-color: var(--color-purple);
+            box-shadow: var(--shadow-lg), 0 8px 32px rgba(77, 47, 178, 0.1);
+        }
+
+        .result-card:hover::after {
+            left: 0;
+            opacity: 1;
+        }
+
+        .result-query {
+            font-family: var(--font-mono);
+            font-size: 15px;
+            font-weight: 500;
+            color: var(--color-text-primary);
+            margin-bottom: var(--space-2);
+            position: relative;
+            z-index: 1;
+        }
+
+        .result-reasoning {
+            font-size: 14px;
+            color: var(--color-text-secondary);
+            margin-bottom: var(--space-4);
+            position: relative;
+            z-index: 1;
+        }
+
+        .result-actions {
+            display: flex;
+            gap: var(--space-2);
+            align-items: center;
+            position: relative;
+            z-index: 1;
+        }
+
+        .btn-copy {
+            padding: var(--space-2) var(--space-4);
+            background: var(--color-surface);
+            color: var(--color-text-primary);
+            font-size: 13px;
+            font-weight: 500;
+            border: 1px solid var(--color-border);
+            border-radius: var(--radius-md);
+            cursor: pointer;
+            transition: all var(--duration-fast) var(--ease-default);
+        }
+
+        .btn-copy:hover {
+            border-color: var(--color-purple);
+            color: var(--color-purple);
+        }
+
+        .btn-open {
+            padding: var(--space-2) var(--space-4);
+            background: transparent;
+            color: var(--color-purple);
+            font-size: 13px;
+            font-weight: 500;
+            border: 1px solid var(--color-purple);
+            border-radius: var(--radius-md);
+            cursor: pointer;
+            transition: all var(--duration-fast) var(--ease-default);
+        }
+
+        .btn-open:hover {
+            background: var(--color-purple);
+            color: white;
+        }
+
+        .btn-favorite {
+            width: 36px;
+            height: 36px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            background: var(--color-surface);
+            border: 1px solid var(--color-border);
+            border-radius: var(--radius-md);
+            cursor: pointer;
+            margin-left: auto;
+            font-size: 16px;
+            transition: all var(--duration-fast) var(--ease-default);
+        }
+
+        .btn-favorite:hover {
+            border-color: var(--color-purple);
+            color: var(--color-purple);
+            transform: scale(1.1);
+        }
+
+        /* ============================================
+           Refine Section
+           ============================================ */
+        .refine-section {
+            grid-column: span 12;
+            background: var(--color-surface-elevated);
+            border: 1px solid var(--color-border);
+            border-radius: var(--radius-xl);
+            padding: var(--space-5);
+        }
+
+        .refine-title {
+            font-size: 14px;
+            font-weight: 600;
+            color: var(--color-text-primary);
+            margin-bottom: var(--space-3);
+        }
+
+        .refine-row {
+            display: flex;
+            gap: var(--space-3);
+        }
+
+        .refine-input {
+            flex: 1;
+            padding: var(--space-3) var(--space-4);
+            background: var(--color-canvas);
+            color: var(--color-text-primary);
+            font-family: var(--font-body);
+            font-size: 14px;
+            border: 1px solid var(--color-border);
+            border-radius: var(--radius-md);
+            transition: all var(--duration-fast) var(--ease-default);
+        }
+
+        .refine-input::placeholder {
+            color: var(--color-text-muted);
+        }
+
+        .refine-input:focus {
+            outline: none;
+            border-color: var(--color-purple);
+        }
+
+        .btn-send {
+            padding: var(--space-3) var(--space-6);
+            background: var(--gradient-accent);
+            color: white;
+            font-size: 14px;
+            font-weight: 600;
+            border: none;
+            border-radius: var(--radius-md);
+            cursor: pointer;
+            transition: all var(--duration-fast) var(--ease-default);
+        }
+
+        .btn-send:hover {
+            transform: translateY(-1px);
+            box-shadow: var(--shadow-glow);
+        }
+
+        /* ============================================
+           Mobile Styles
+           ============================================ */
+        .viewport-frame.mobile .app-header {
+            padding: var(--space-3) var(--space-4);
+        }
+
+        .viewport-frame.mobile .logo-text {
+            display: none;
+        }
+
+        .viewport-frame.mobile .nav-item {
+            display: none;
+        }
+
+        .viewport-frame.mobile .nav-hamburger {
+            display: flex;
+        }
+
+        .viewport-frame.mobile .main-content {
+            padding: var(--space-4);
+        }
+
+        .viewport-frame.mobile .bento-grid {
+            grid-template-columns: repeat(4, 1fr);
+            gap: var(--space-4);
+        }
+
+        .viewport-frame.mobile .card-hero {
+            grid-column: span 4;
+            padding: var(--space-5);
+        }
+
+        .viewport-frame.mobile .sidebar-stack {
+            grid-column: span 4;
+        }
+
+        .viewport-frame.mobile .analysis-row {
+            grid-template-columns: repeat(2, 1fr);
+            grid-column: span 4;
+        }
+
+        .viewport-frame.mobile .results-section {
+            grid-column: span 4;
+        }
+
+        .viewport-frame.mobile .refine-section {
+            grid-column: span 4;
+        }
+
+        .viewport-frame.mobile .refine-row {
+            flex-direction: column;
+        }
+
+        .viewport-frame.mobile .hero-title {
+            font-size: 20px;
+        }
+
+        .viewport-frame.mobile .viewfinder {
+            padding: var(--space-4);
+        }
+
+        /* Tablet Styles */
+        .viewport-frame.tablet .bento-grid {
+            grid-template-columns: repeat(8, 1fr);
+        }
+
+        .viewport-frame.tablet .card-hero {
+            grid-column: span 5;
+        }
+
+        .viewport-frame.tablet .sidebar-stack {
+            grid-column: span 3;
+        }
+
+        .viewport-frame.tablet .analysis-row {
+            grid-column: span 8;
+        }
+
+        .viewport-frame.tablet .results-section {
+            grid-column: span 8;
+        }
+
+        .viewport-frame.tablet .refine-section {
+            grid-column: span 8;
+        }
+
+        /* ============================================
+           Animations
+           ============================================ */
+        @keyframes develop {
+            0% {
+                opacity: 0;
+                filter: blur(8px) saturate(0);
+                transform: translateY(8px);
+            }
+            100% {
+                opacity: 1;
+                filter: blur(0) saturate(1);
+                transform: translateY(0);
+            }
+        }
+
+        .result-card {
+            animation: develop 0.4s var(--ease-default) forwards;
+        }
+
+        .result-card:nth-child(2) {
+            animation-delay: 0.1s;
+        }
+
+        .result-card:nth-child(3) {
+            animation-delay: 0.2s;
+        }
+
+        @keyframes pulse-glow {
+            0%, 100% {
+                box-shadow: var(--shadow-glow);
+            }
+            50% {
+                box-shadow: var(--shadow-glow-lg);
+            }
+        }
+
+        /* ============================================
+           Login Page
+           ============================================ */
+        .login-container {
+            min-height: 600px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            padding: var(--space-6);
+            background: var(--color-canvas);
+            position: relative;
+            overflow: hidden;
+        }
+
+        .login-container::before {
+            content: '';
+            position: absolute;
+            top: -50%;
+            right: -30%;
+            width: 80%;
+            height: 150%;
+            background: var(--gradient-light-leak);
+            opacity: 0.5;
+            pointer-events: none;
+        }
+
+        .login-card {
+            background: var(--color-surface-elevated);
+            border: 1px solid var(--color-border);
+            border-radius: var(--radius-2xl);
+            padding: var(--space-10);
+            max-width: 420px;
+            width: 100%;
+            box-shadow: var(--shadow-xl);
+            position: relative;
+            z-index: 1;
+        }
+
+        .viewport-frame.mobile .login-card {
+            padding: var(--space-6);
+        }
+
+        .login-logo {
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            gap: var(--space-2);
+            margin-bottom: var(--space-2);
+        }
+
+        .login-logo .logo-mark {
+            width: 48px;
+            height: 48px;
+        }
+
+        .login-logo .logo-letter {
+            font-size: 28px;
+        }
+
+        .login-title {
+            text-align: center;
+            font-size: 28px;
+            font-weight: 700;
+            color: var(--color-text-primary);
+            margin-bottom: var(--space-2);
+        }
+
+        .login-subtitle {
+            text-align: center;
+            font-size: 14px;
+            color: var(--color-text-secondary);
+            margin-bottom: var(--space-8);
+        }
+
+        .form-group {
+            margin-bottom: var(--space-5);
+        }
+
+        .form-label {
+            display: block;
+            font-size: 14px;
+            font-weight: 500;
+            color: var(--color-text-primary);
+            margin-bottom: var(--space-2);
+        }
+
+        .form-input {
+            width: 100%;
+            padding: var(--space-3) var(--space-4);
+            background: var(--color-canvas);
+            color: var(--color-text-primary);
+            font-family: var(--font-body);
+            font-size: 15px;
+            border: 1px solid var(--color-border);
+            border-radius: var(--radius-md);
+            transition: all var(--duration-fast) var(--ease-default);
+        }
+
+        .form-input::placeholder {
+            color: var(--color-text-muted);
+        }
+
+        .form-input:focus {
+            outline: none;
+            border-color: var(--color-purple);
+            box-shadow: 0 0 0 4px rgba(77, 47, 178, 0.1);
+        }
+
+        .btn-login {
+            width: 100%;
+            padding: 14px;
+            background: var(--gradient-accent);
+            color: white;
+            font-size: 15px;
+            font-weight: 600;
+            border: none;
+            border-radius: var(--radius-md);
+            cursor: pointer;
+            box-shadow: var(--shadow-glow);
+            transition: all var(--duration-normal) var(--ease-default);
+        }
+
+        .btn-login:hover {
+            transform: translateY(-2px);
+            box-shadow: var(--shadow-glow-lg);
+        }
+
+        .divider {
+            display: flex;
+            align-items: center;
+            gap: var(--space-4);
+            margin: var(--space-6) 0;
+            color: var(--color-text-muted);
+            font-size: 13px;
+        }
+
+        .divider::before,
+        .divider::after {
+            content: '';
+            flex: 1;
+            height: 1px;
+            background: var(--color-border);
+        }
+
+        .social-buttons {
+            display: flex;
+            flex-direction: column;
+            gap: var(--space-3);
+        }
+
+        .btn-social {
+            width: 100%;
+            padding: 12px;
+            background: var(--color-surface);
+            color: var(--color-text-primary);
+            font-size: 14px;
+            font-weight: 500;
+            border: 1px solid var(--color-border);
+            border-radius: var(--radius-md);
+            cursor: pointer;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            gap: var(--space-2);
+            transition: all var(--duration-fast) var(--ease-default);
+        }
+
+        .btn-social:hover {
+            border-color: var(--color-purple);
+            background: rgba(77, 47, 178, 0.04);
+        }
+
+        .signup-link {
+            text-align: center;
+            margin-top: var(--space-6);
+            font-size: 14px;
+            color: var(--color-text-secondary);
+        }
+
+        .signup-link a {
+            color: var(--color-purple);
+            text-decoration: none;
+            font-weight: 500;
+        }
+
+        .signup-link a:hover {
+            text-decoration: underline;
+        }
+
+        /* ============================================
+           History Page
+           ============================================ */
+        .history-container {
+            padding: var(--space-6);
+            background: var(--color-canvas);
+        }
+
+        .history-header {
+            max-width: 900px;
+            margin: 0 auto var(--space-6);
+        }
+
+        .history-title {
+            font-size: 28px;
+            font-weight: 700;
+            color: var(--color-text-primary);
+            margin-bottom: var(--space-4);
+        }
+
+        .history-filters {
+            display: flex;
+            gap: var(--space-3);
+            flex-wrap: wrap;
+        }
+
+        .history-list {
+            max-width: 900px;
+            margin: 0 auto;
+        }
+
+        .history-group {
+            margin-bottom: var(--space-8);
+        }
+
+        .history-group-title {
+            font-size: 12px;
+            font-weight: 600;
+            text-transform: uppercase;
+            letter-spacing: 0.05em;
+            color: var(--color-text-secondary);
+            margin-bottom: var(--space-4);
+        }
+
+        .history-item {
+            background: var(--color-surface-elevated);
+            border: 1px solid var(--color-border);
+            border-radius: var(--radius-lg);
+            padding: var(--space-5);
+            margin-bottom: var(--space-3);
+            transition: all var(--duration-fast) var(--ease-default);
+        }
+
+        .history-item:hover {
+            border-color: rgba(77, 47, 178, 0.3);
+            box-shadow: var(--shadow-md);
+        }
+
+        .history-item-title {
+            font-size: 15px;
+            font-weight: 500;
+            color: var(--color-text-primary);
+            margin-bottom: var(--space-2);
+        }
+
+        .history-item-meta {
+            font-size: 13px;
+            color: var(--color-text-secondary);
+            margin-bottom: var(--space-3);
+        }
+
+        .history-item-actions {
+            display: flex;
+            gap: var(--space-2);
+        }
+
+        .viewport-frame.mobile .history-container {
+            padding: var(--space-4);
+        }
+
+        .viewport-frame.mobile .history-filters {
+            flex-direction: column;
+        }
+
+        .viewport-frame.mobile .history-filters .filter-select {
+            width: 100%;
+        }
+
+        .filter-select {
+            padding: var(--space-2) var(--space-4);
+            background: var(--color-surface);
+            color: var(--color-text-primary);
+            font-size: 14px;
+            border: 1px solid var(--color-border);
+            border-radius: var(--radius-md);
+        }
+
+        /* ============================================
+           Color Palette Display
+           ============================================ */
+        .color-palette {
+            display: grid;
+            grid-template-columns: repeat(auto-fill, minmax(140px, 1fr));
+            gap: var(--space-4);
+            margin-bottom: var(--space-8);
+        }
+
+        .color-swatch {
+            border-radius: var(--radius-lg);
+            overflow: hidden;
+            border: 1px solid var(--color-border);
+        }
+
+        .color-swatch-color {
+            height: 80px;
+        }
+
+        .color-swatch-info {
+            padding: var(--space-3);
+            background: var(--color-surface-elevated);
+        }
+
+        .color-swatch-name {
+            font-size: 13px;
+            font-weight: 600;
+            color: var(--color-text-primary);
+        }
+
+        .color-swatch-value {
+            font-size: 12px;
+            font-family: var(--font-mono);
+            color: var(--color-text-secondary);
+        }
+
+        /* ============================================
+           Page Selector
+           ============================================ */
+        .page-tabs {
+            display: flex;
+            gap: var(--space-2);
+            margin-bottom: var(--space-6);
+            justify-content: center;
+        }
+
+        .page-tab {
+            padding: var(--space-3) var(--space-5);
+            background: var(--color-surface);
+            border: 1px solid var(--color-border);
+            border-radius: var(--radius-md);
+            font-size: 14px;
+            font-weight: 500;
+            color: var(--color-text-secondary);
+            cursor: pointer;
+            transition: all var(--duration-fast) var(--ease-default);
+        }
+
+        .page-tab:hover {
+            border-color: var(--color-purple);
+            color: var(--color-purple);
+        }
+
+        .page-tab.active {
+            background: var(--gradient-accent);
+            color: white;
+            border-color: transparent;
+        }
+    </style>
+</head>
+<body>
+    <div class="demo-container">
+        <header class="demo-header">
+            <h1 class="demo-title">Stock Image Helper</h1>
+            <p class="demo-subtitle">Design Language V2 - "The Creative's Canvas"</p>
+            
+            <div class="demo-controls">
+                <button class="control-btn active" onclick="setViewport('desktop')">Desktop</button>
+                <button class="control-btn" onclick="setViewport('tablet')">Tablet</button>
+                <button class="control-btn" onclick="setViewport('mobile')">Mobile</button>
+                <button class="control-btn" onclick="toggleTheme()">Toggle Dark Mode</button>
+            </div>
+
+            <div class="page-tabs">
+                <button class="page-tab active" onclick="showPage('search')">Search Page</button>
+                <button class="page-tab" onclick="showPage('login')">Login Page</button>
+                <button class="page-tab" onclick="showPage('history')">History Page</button>
+                <button class="page-tab" onclick="showPage('colors')">Color Palette</button>
+            </div>
+        </header>
+
+        <!-- Search Page -->
+        <div id="page-search" class="demo-section">
+            <div class="viewport-frame desktop" id="viewport-search">
+                <!-- Header -->
+                <header class="app-header">
+                    <div class="logo">
+                        <div class="logo-mark">
+                            <span class="logo-letter">S</span>
+                        </div>
+                        <span class="logo-text">Stock Image Helper</span>
+                    </div>
+                    <nav class="nav">
+                        <span class="nav-item">History</span>
+                        <span class="nav-item">Settings</span>
+                        <div class="nav-avatar">D</div>
+                        <div class="nav-hamburger">
+                            <svg width="20" height="20" viewBox="0 0 20 20" fill="none" stroke="currentColor" stroke-width="1.5">
+                                <path d="M3 5h14M3 10h14M3 15h14"/>
+                            </svg>
+                        </div>
+                    </nav>
+                </header>
+
+                <!-- Main Content -->
+                <main class="main-content">
+                    <div class="bento-grid">
+                        <!-- Hero Card - Brief Input -->
+                        <div class="card-hero">
+                            <div class="hero-content">
+                                <div class="viewfinder viewfinder-bottom">
+                                    <span class="hero-label">Creative Brief</span>
+                                    <h1 class="hero-title">Describe the image you're looking for...</h1>
+                                    <p class="hero-subtitle">Be as detailed as possible about subject, setting, mood, and style.</p>
+                                </div>
+                                <textarea class="textarea-brief" placeholder="Ford truck in a rugged outdoor setting, sunrise lighting, cinematic feel, wide landscape shot. Should evoke adventure and reliability."></textarea>
+                                <button class="btn-generate">Generate Search Queries</button>
+                            </div>
+                        </div>
+
+                        <!-- Sidebar Stack -->
+                        <div class="sidebar-stack">
+                            <div class="card-sidebar">
+                                <span class="sidebar-title">AI Model</span>
+                                <select class="model-select">
+                                    <option>GPT-4o (Best quality)</option>
+                                    <option>GPT-4o-mini (Faster)</option>
+                                    <option>Claude 3.5 Sonnet</option>
+                                    <option>Gemini 1.5 Pro</option>
+                                </select>
+                            </div>
+                            <div class="card-sidebar">
+                                <span class="sidebar-title">Platforms</span>
+                                <div class="platform-list">
+                                    <label class="platform-item">
+                                        <input type="checkbox" checked>
+                                        <span>Getty Images</span>
+                                    </label>
+                                    <label class="platform-item">
+                                        <input type="checkbox" checked>
+                                        <span>Shutterstock</span>
+                                    </label>
+                                    <label class="platform-item">
+                                        <input type="checkbox" checked>
+                                        <span>Adobe Stock</span>
+                                    </label>
+                                    <label class="platform-item">
+                                        <input type="checkbox">
+                                        <span>Unsplash</span>
+                                        <span class="platform-free">(Free)</span>
+                                    </label>
+                                    <label class="platform-item">
+                                        <input type="checkbox">
+                                        <span>Pexels</span>
+                                        <span class="platform-free">(Free)</span>
+                                    </label>
+                                </div>
+                            </div>
+                        </div>
+
+                        <!-- Analysis Tags -->
+                        <div class="analysis-row">
+                            <div class="analysis-tag">
+                                <span class="tag-label">Subject</span>
+                                <span class="tag-value">pickup truck</span>
+                            </div>
+                            <div class="analysis-tag">
+                                <span class="tag-label">Setting</span>
+                                <span class="tag-value">mountain outdoor</span>
+                            </div>
+                            <div class="analysis-tag">
+                                <span class="tag-label">Lighting</span>
+                                <span class="tag-value">sunrise golden hr</span>
+                            </div>
+                            <div class="analysis-tag">
+                                <span class="tag-label">Mood</span>
+                                <span class="tag-value">adventure freedom</span>
+                            </div>
+                        </div>
+
+                        <!-- Results Section -->
+                        <section class="results-section">
+                            <div class="results-header">
+                                <h2 class="results-title">Search Queries</h2>
+                                <div class="view-toggle">
+                                    <button class="view-btn active">Cards</button>
+                                    <button class="view-btn">Table</button>
+                                    <button class="view-btn">JSON</button>
+                                </div>
+                            </div>
+
+                            <!-- Getty Results -->
+                            <div class="platform-results">
+                                <div class="platform-header">
+                                    <span class="platform-badge platform-badge-getty">Getty Images</span>
+                                </div>
+                                <div class="result-card">
+                                    <div class="result-query">pickup truck sunrise mountain landscape cinematic</div>
+                                    <div class="result-reasoning">Combines subject with setting and lighting for broad coverage</div>
+                                    <div class="result-actions">
+                                        <button class="btn-copy">Copy</button>
+                                        <button class="btn-open">Search on Getty</button>
+                                        <button class="btn-favorite">&#9825;</button>
+                                    </div>
+                                </div>
+                                <div class="result-card">
+                                    <div class="result-query">truck adventure outdoor golden hour wide shot</div>
+                                    <div class="result-reasoning">Alternative focusing on mood and composition style</div>
+                                    <div class="result-actions">
+                                        <button class="btn-copy">Copy</button>
+                                        <button class="btn-open">Search on Getty</button>
+                                        <button class="btn-favorite">&#9825;</button>
+                                    </div>
+                                </div>
+                            </div>
+
+                            <!-- Shutterstock Results -->
+                            <div class="platform-results">
+                                <div class="platform-header">
+                                    <span class="platform-badge platform-badge-shutterstock">Shutterstock</span>
+                                </div>
+                                <div class="result-card">
+                                    <div class="result-query">pickup truck mountain sunrise cinematic</div>
+                                    <div class="result-reasoning">Shutterstock prefers shorter, focused queries</div>
+                                    <div class="result-actions">
+                                        <button class="btn-copy">Copy</button>
+                                        <button class="btn-open">Search on Shutterstock</button>
+                                        <button class="btn-favorite">&#9825;</button>
+                                    </div>
+                                </div>
+                            </div>
+                        </section>
+
+                        <!-- Refine Section -->
+                        <div class="refine-section">
+                            <span class="refine-title">Refine your search...</span>
+                            <div class="refine-row">
+                                <input type="text" class="refine-input" placeholder="Make them more dramatic, add storm clouds...">
+                                <button class="btn-send">Send</button>
+                            </div>
+                        </div>
+                    </div>
+                </main>
+            </div>
+        </div>
+
+        <!-- Login Page -->
+        <div id="page-login" class="demo-section hidden">
+            <div class="viewport-frame desktop" id="viewport-login">
+                <div class="login-container">
+                    <div class="login-card">
+                        <div class="login-logo">
+                            <div class="logo-mark">
+                                <span class="logo-letter">S</span>
+                            </div>
+                        </div>
+                        <h1 class="login-title">Stock Image Helper</h1>
+                        <p class="login-subtitle">Sign in to continue</p>
+                        
+                        <div class="form-group">
+                            <label class="form-label">Email</label>
+                            <input type="email" class="form-input" placeholder="your@email.com">
+                        </div>
+                        <div class="form-group">
+                            <label class="form-label">Password</label>
+                            <input type="password" class="form-input" placeholder="Enter your password">
+                        </div>
+                        <button class="btn-login">Sign In</button>
+                        
+                        <div class="divider">or continue with</div>
+                        
+                        <div class="social-buttons">
+                            <button class="btn-social">
+                                <svg width="18" height="18" viewBox="0 0 18 18"><path fill="#4285F4" d="M17.64 9.2c0-.637-.057-1.251-.164-1.84H9v3.481h4.844c-.209 1.125-.843 2.078-1.796 2.717v2.258h2.908c1.702-1.567 2.684-3.874 2.684-6.615z"/><path fill="#34A853" d="M9 18c2.43 0 4.467-.806 5.956-2.184l-2.908-2.258c-.806.54-1.837.86-3.048.86-2.344 0-4.328-1.584-5.036-3.711H.957v2.332A8.997 8.997 0 0 0 9 18z"/><path fill="#FBBC05" d="M3.964 10.707A5.41 5.41 0 0 1 3.682 9c0-.593.102-1.17.282-1.707V4.961H.957A8.996 8.996 0 0 0 0 9c0 1.452.348 2.827.957 4.046l3.007-2.339z"/><path fill="#EA4335" d="M9 3.58c1.321 0 2.508.454 3.44 1.345l2.582-2.58C13.463.891 11.426 0 9 0A8.997 8.997 0 0 0 .957 4.961L3.964 7.3C4.672 5.163 6.656 3.58 9 3.58z"/></svg>
+                                Sign in with Google
+                            </button>
+                            <button class="btn-social">
+                                <svg width="18" height="18" viewBox="0 0 21 21"><path fill="#f25022" d="M1 1h9v9H1z"/><path fill="#00a4ef" d="M1 11h9v9H1z"/><path fill="#7fba00" d="M11 1h9v9h-9z"/><path fill="#ffb900" d="M11 11h9v9h-9z"/></svg>
+                                Sign in with Microsoft
+                            </button>
+                            <button class="btn-social">
+                                <svg width="18" height="18" viewBox="0 0 24 24" fill="currentColor"><path d="M12 0c-6.626 0-12 5.373-12 12 0 5.302 3.438 9.8 8.207 11.387.599.111.793-.261.793-.577v-2.234c-3.338.726-4.033-1.416-4.033-1.416-.546-1.387-1.333-1.756-1.333-1.756-1.089-.745.083-.729.083-.729 1.205.084 1.839 1.237 1.839 1.237 1.07 1.834 2.807 1.304 3.492.997.107-.775.418-1.305.762-1.604-2.665-.305-5.467-1.334-5.467-5.931 0-1.311.469-2.381 1.236-3.221-.124-.303-.535-1.524.117-3.176 0 0 1.008-.322 3.301 1.23.957-.266 1.983-.399 3.003-.404 1.02.005 2.047.138 3.006.404 2.291-1.552 3.297-1.23 3.297-1.23.653 1.653.242 2.874.118 3.176.77.84 1.235 1.911 1.235 3.221 0 4.609-2.807 5.624-5.479 5.921.43.372.823 1.102.823 2.222v3.293c0 .319.192.694.801.576 4.765-1.589 8.199-6.086 8.199-11.386 0-6.627-5.373-12-12-12z"/></svg>
+                                Sign in with GitHub
+                            </button>
+                        </div>
+                        
+                        <p class="signup-link">
+                            Don't have an account? <a href="#">Sign up</a>
+                        </p>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <!-- History Page -->
+        <div id="page-history" class="demo-section hidden">
+            <div class="viewport-frame desktop" id="viewport-history">
+                <!-- Header -->
+                <header class="app-header">
+                    <div class="logo">
+                        <div class="logo-mark">
+                            <span class="logo-letter">S</span>
+                        </div>
+                        <span class="logo-text">Stock Image Helper</span>
+                    </div>
+                    <nav class="nav">
+                        <span class="nav-item" style="color: var(--color-magenta);">History</span>
+                        <span class="nav-item">Settings</span>
+                        <div class="nav-avatar">D</div>
+                        <div class="nav-hamburger">
+                            <svg width="20" height="20" viewBox="0 0 20 20" fill="none" stroke="currentColor" stroke-width="1.5">
+                                <path d="M3 5h14M3 10h14M3 15h14"/>
+                            </svg>
+                        </div>
+                    </nav>
+                </header>
+
+                <div class="history-container">
+                    <div class="history-header">
+                        <h1 class="history-title">Search History</h1>
+                        <div class="history-filters">
+                            <select class="filter-select">
+                                <option>All searches</option>
+                                <option>This week</option>
+                                <option>This month</option>
+                            </select>
+                            <input type="text" class="filter-select" placeholder="Search history..." style="flex: 1; max-width: 300px;">
+                        </div>
+                    </div>
+
+                    <div class="history-list">
+                        <div class="history-group">
+                            <h3 class="history-group-title">Today</h3>
+                            <div class="history-item">
+                                <div class="history-item-title">Ford truck in mountains, sunrise, cinematic...</div>
+                                <div class="history-item-meta">3:05 PM &bull; GPT-4o &bull; 6 queries</div>
+                                <div class="history-item-actions">
+                                    <button class="btn-copy">View</button>
+                                    <button class="btn-copy">Reuse</button>
+                                    <button class="btn-copy">Delete</button>
+                                </div>
+                            </div>
+                            <div class="history-item">
+                                <div class="history-item-title">Nike running shoes on track, dynamic motion...</div>
+                                <div class="history-item-meta">11:30 AM &bull; Claude 3.5 &bull; 6 queries</div>
+                                <div class="history-item-actions">
+                                    <button class="btn-copy">View</button>
+                                    <button class="btn-copy">Reuse</button>
+                                    <button class="btn-copy">Delete</button>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="history-group">
+                            <h3 class="history-group-title">Yesterday</h3>
+                            <div class="history-item">
+                                <div class="history-item-title">Coffee shop interior, warm lighting, cozy...</div>
+                                <div class="history-item-meta">4:15 PM &bull; GPT-4o &bull; 6 queries</div>
+                                <div class="history-item-actions">
+                                    <button class="btn-copy">View</button>
+                                    <button class="btn-copy">Reuse</button>
+                                    <button class="btn-copy">Delete</button>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <!-- Color Palette -->
+        <div id="page-colors" class="demo-section hidden">
+            <h2 class="section-title">Primary Colors - Cosmic Gradient</h2>
+            <div class="color-palette">
+                <div class="color-swatch">
+                    <div class="color-swatch-color" style="background: #0E21A0;"></div>
+                    <div class="color-swatch-info">
+                        <div class="color-swatch-name">Deep Blue</div>
+                        <div class="color-swatch-value">#0E21A0</div>
+                    </div>
+                </div>
+                <div class="color-swatch">
+                    <div class="color-swatch-color" style="background: #4D2FB2;"></div>
+                    <div class="color-swatch-info">
+                        <div class="color-swatch-name">Purple</div>
+                        <div class="color-swatch-value">#4D2FB2</div>
+                    </div>
+                </div>
+                <div class="color-swatch">
+                    <div class="color-swatch-color" style="background: #B153D7;"></div>
+                    <div class="color-swatch-info">
+                        <div class="color-swatch-name">Magenta</div>
+                        <div class="color-swatch-value">#B153D7</div>
+                    </div>
+                </div>
+                <div class="color-swatch">
+                    <div class="color-swatch-color" style="background: #F375C2;"></div>
+                    <div class="color-swatch-info">
+                        <div class="color-swatch-name">Pink</div>
+                        <div class="color-swatch-value">#F375C2</div>
+                    </div>
+                </div>
+                <div class="color-swatch">
+                    <div class="color-swatch-color" style="background: linear-gradient(135deg, #0E21A0 0%, #4D2FB2 35%, #B153D7 70%, #F375C2 100%);"></div>
+                    <div class="color-swatch-info">
+                        <div class="color-swatch-name">Cosmic Gradient</div>
+                        <div class="color-swatch-value">Primary</div>
+                    </div>
+                </div>
+            </div>
+
+            <h2 class="section-title">Neutral Palette</h2>
+            <div class="color-palette">
+                <div class="color-swatch">
+                    <div class="color-swatch-color" style="background: #FAFAFE;"></div>
+                    <div class="color-swatch-info">
+                        <div class="color-swatch-name">Canvas</div>
+                        <div class="color-swatch-value">#FAFAFE</div>
+                    </div>
+                </div>
+                <div class="color-swatch">
+                    <div class="color-swatch-color" style="background: #F5F5FA;"></div>
+                    <div class="color-swatch-info">
+                        <div class="color-swatch-name">Surface</div>
+                        <div class="color-swatch-value">#F5F5FA</div>
+                    </div>
+                </div>
+                <div class="color-swatch">
+                    <div class="color-swatch-color" style="background: #E4E4EE;"></div>
+                    <div class="color-swatch-info">
+                        <div class="color-swatch-name">Border</div>
+                        <div class="color-swatch-value">#E4E4EE</div>
+                    </div>
+                </div>
+                <div class="color-swatch">
+                    <div class="color-swatch-color" style="background: #6B6B80;"></div>
+                    <div class="color-swatch-info">
+                        <div class="color-swatch-name">Secondary Text</div>
+                        <div class="color-swatch-value">#6B6B80</div>
+                    </div>
+                </div>
+                <div class="color-swatch">
+                    <div class="color-swatch-color" style="background: #1A1A2E;"></div>
+                    <div class="color-swatch-info">
+                        <div class="color-swatch-name">Primary Text</div>
+                        <div class="color-swatch-value">#1A1A2E</div>
+                    </div>
+                </div>
+            </div>
+
+            <h2 class="section-title">Dark Mode</h2>
+            <div class="color-palette">
+                <div class="color-swatch">
+                    <div class="color-swatch-color" style="background: #0D0D1A;"></div>
+                    <div class="color-swatch-info">
+                        <div class="color-swatch-name">Deep Navy</div>
+                        <div class="color-swatch-value">#0D0D1A</div>
+                    </div>
+                </div>
+                <div class="color-swatch">
+                    <div class="color-swatch-color" style="background: #16162A;"></div>
+                    <div class="color-swatch-info">
+                        <div class="color-swatch-name">Surface Dark</div>
+                        <div class="color-swatch-value">#16162A</div>
+                    </div>
+                </div>
+                <div class="color-swatch">
+                    <div class="color-swatch-color" style="background: #2A2A45;"></div>
+                    <div class="color-swatch-info">
+                        <div class="color-swatch-name">Border Dark</div>
+                        <div class="color-swatch-value">#2A2A45</div>
+                    </div>
+                </div>
+                <div class="color-swatch">
+                    <div class="color-swatch-color" style="background: #C875E0;"></div>
+                    <div class="color-swatch-info">
+                        <div class="color-swatch-name">Magenta Light</div>
+                        <div class="color-swatch-value">#C875E0</div>
+                    </div>
+                </div>
+            </div>
+
+            <h2 class="section-title">Platform Badges</h2>
+            <div style="display: flex; gap: var(--space-3); flex-wrap: wrap; margin-bottom: var(--space-8);">
+                <span class="platform-badge platform-badge-getty">Getty Images</span>
+                <span class="platform-badge platform-badge-shutterstock">Shutterstock</span>
+                <span class="platform-badge platform-badge-adobe">Adobe Stock</span>
+                <span class="platform-badge" style="background: linear-gradient(135deg, #1A1A2E, #2A2A45);">Unsplash</span>
+                <span class="platform-badge" style="background: linear-gradient(135deg, #10B981, #34D399);">Pexels</span>
+            </div>
+        </div>
+    </div>
+
+    <script>
+        function setViewport(size) {
+            // Update buttons
+            document.querySelectorAll('.control-btn').forEach(btn => {
+                if (btn.textContent.toLowerCase().includes(size)) {
+                    btn.classList.add('active');
+                } else if (['desktop', 'tablet', 'mobile'].some(s => btn.textContent.toLowerCase().includes(s))) {
+                    btn.classList.remove('active');
+                }
+            });
+
+            // Update viewports
+            document.querySelectorAll('.viewport-frame').forEach(frame => {
+                frame.classList.remove('desktop', 'tablet', 'mobile');
+                frame.classList.add(size);
+            });
+        }
+
+        function toggleTheme() {
+            const body = document.body;
+            if (body.hasAttribute('data-theme')) {
+                body.removeAttribute('data-theme');
+            } else {
+                body.setAttribute('data-theme', 'dark');
+            }
+        }
+
+        function showPage(page) {
+            // Update tabs
+            document.querySelectorAll('.page-tab').forEach(tab => {
+                tab.classList.remove('active');
+                if (tab.textContent.toLowerCase().includes(page)) {
+                    tab.classList.add('active');
+                }
+            });
+
+            // Show/hide pages
+            document.querySelectorAll('.demo-section').forEach(section => {
+                section.classList.add('hidden');
+            });
+            document.getElementById('page-' + page).classList.remove('hidden');
+        }
+    </script>
+</body>
+</html>
