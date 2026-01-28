@@ -1,0 +1,1 @@
+when i type /commit it should commit my code to the github repo linked. 

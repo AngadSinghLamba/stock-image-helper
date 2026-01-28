@@ -2,9 +2,11 @@
 
 ## Stock Image Helper - Design Specifications
 
-**Version**: 1.0  
-**Date**: January 26, 2026  
+**Version**: 2.0  
+**Date**: January 27, 2026  
 **Author**: Angad Lamba
+
+> This is the complete design specification for Stock Image Helper's "Creative's Canvas" design language.
 
 ---
 
@@ -14,9 +16,10 @@
 
 | Principle | Description |
 |-----------|-------------|
-| **Simplicity** | One clear action per screen |
+| **Bold & Creative** | Use vibrant blue-to-pink gradients that feel energetic and modern |
+| **Visually Distinct** | Photography-inspired elements create brand recognition |
 | **Speed** | Minimize clicks to get results |
-| **Clarity** | Clear visual hierarchy |
+| **Editorial Layout** | Bento grid layouts feel modern and premium |
 | **Accessibility** | WCAG 2.1 AA compliant |
 
 ### 1.2 Design Goals
@@ -25,48 +28,84 @@
 2. Results are scannable at a glance
 3. Dark mode for comfortable extended use
 4. Works on mobile (responsive)
+5. Memorable design that stands out from typical SaaS tools
 
 ---
 
-## 2. Color System
+## 2. Color System - "Cosmic Gradient"
 
-### 2.1 Light Mode
+A vibrant blue-to-pink spectrum inspired by creative energy and digital artistry.
 
-| Token | Value | Usage |
-|-------|-------|-------|
-| `--background` | #FFFFFF | Page background |
-| `--foreground` | #0A0A0A | Primary text |
-| `--muted` | #F4F4F5 | Secondary backgrounds |
-| `--muted-foreground` | #71717A | Secondary text |
-| `--border` | #E4E4E7 | Borders, dividers |
-| `--primary` | #2563EB | Primary buttons, links |
-| `--primary-foreground` | #FFFFFF | Text on primary |
-| `--destructive` | #DC2626 | Error states |
-| `--success` | #16A34A | Success states |
-
-### 2.2 Dark Mode
+### 2.1 Primary Colors
 
 | Token | Value | Usage |
 |-------|-------|-------|
-| `--background` | #0A0A0A | Page background |
-| `--foreground` | #FAFAFA | Primary text |
-| `--muted` | #27272A | Secondary backgrounds |
-| `--muted-foreground` | #A1A1AA | Secondary text |
-| `--border` | #3F3F46 | Borders, dividers |
-| `--primary` | #3B82F6 | Primary buttons, links |
-| `--primary-foreground` | #FFFFFF | Text on primary |
-| `--destructive` | #EF4444 | Error states |
-| `--success` | #22C55E | Success states |
+| `--color-deep-blue` | #0E21A0 | Headers, emphasis, dark accents |
+| `--color-purple` | #4D2FB2 | Primary actions (light mode) |
+| `--color-magenta` | #B153D7 | Primary actions (dark mode), hover states |
+| `--color-pink` | #F375C2 | Highlights, accents, badges |
 
-### 2.3 Platform Colors
+### 2.2 Light Mode
 
-| Platform | Color | Usage |
-|----------|-------|-------|
-| Getty Images | #FF0000 | Platform badge |
-| Shutterstock | #EE2B24 | Platform badge |
-| Adobe Stock | #FF0000 | Platform badge |
-| Unsplash | #000000 | Platform badge |
-| Pexels | #05A081 | Platform badge |
+| Token | Value | Usage |
+|-------|-------|-------|
+| `--color-canvas` | #FAFAFE | Page background (cool-tinted white) |
+| `--color-surface` | #F5F5FA | Card backgrounds |
+| `--color-surface-elevated` | #FFFFFF | Elevated cards, modals |
+| `--color-border` | #E4E4EE | Borders, dividers |
+| `--color-text-primary` | #1A1A2E | Primary text (dark blue-black) |
+| `--color-text-secondary` | #6B6B80 | Secondary text |
+| `--color-text-muted` | #9999AA | Placeholder, disabled |
+
+### 2.3 Dark Mode
+
+| Token | Value | Usage |
+|-------|-------|-------|
+| `--color-canvas-dark` | #0D0D1A | Page background (deep navy) |
+| `--color-surface-dark` | #16162A | Card backgrounds |
+| `--color-surface-elevated-dark` | #1E1E35 | Elevated cards |
+| `--color-border-dark` | #2A2A45 | Borders, dividers |
+| `--color-text-primary-dark` | #F0F0F8 | Primary text (cool white) |
+| `--color-text-secondary-dark` | #A0A0B8 | Secondary text |
+| `--color-magenta-light` | #C875E0 | Primary accent (brighter for dark) |
+
+### 2.4 Signature Gradients
+
+```css
+/* Primary gradient - buttons, highlights (full spectrum) */
+--gradient-primary: linear-gradient(135deg, #0E21A0 0%, #4D2FB2 35%, #B153D7 70%, #F375C2 100%);
+
+/* Accent gradient - CTAs, interactive elements */
+--gradient-accent: linear-gradient(135deg, #4D2FB2 0%, #B153D7 50%, #F375C2 100%);
+
+/* Pink-forward gradient - dark mode CTAs */
+--gradient-pink: linear-gradient(135deg, #B153D7 0%, #F375C2 100%);
+
+/* Subtle gradient - backgrounds, cards */
+--gradient-subtle: linear-gradient(135deg, rgba(77, 47, 178, 0.05) 0%, rgba(243, 117, 194, 0.05) 100%);
+
+/* Purple/Magenta shadow glow */
+--shadow-glow: 0 4px 20px rgba(177, 83, 215, 0.3);
+```
+
+### 2.5 Semantic Colors
+
+| Token | Light | Dark | Usage |
+|-------|-------|------|-------|
+| `--color-success` | #10B981 | #34D399 | Success states |
+| `--color-warning` | #F59E0B | #FBBF24 | Warning states |
+| `--color-error` | #EF4444 | #F87171 | Error states |
+| `--color-info` | #3B82F6 | #60A5FA | Information |
+
+### 2.6 Platform Colors
+
+| Platform | Gradient | Usage |
+|----------|----------|-------|
+| Getty Images | `linear-gradient(135deg, #0E21A0, #4D2FB2)` | Platform badge |
+| Shutterstock | `linear-gradient(135deg, #4D2FB2, #B153D7)` | Platform badge |
+| Adobe Stock | `linear-gradient(135deg, #B153D7, #F375C2)` | Platform badge |
+| Unsplash | `linear-gradient(135deg, #1A1A2E, #2A2A45)` | Platform badge |
+| Pexels | `linear-gradient(135deg, #10B981, #34D399)` | Platform badge |
 
 ---
 
@@ -75,25 +114,192 @@
 ### 3.1 Font Family
 
 ```css
---font-sans: 'Inter', -apple-system, BlinkMacSystemFont, 'Segoe UI', sans-serif;
+/* Display & Headings - Bold, geometric, memorable */
+--font-display: 'Clash Display', 'Cabinet Grotesk', system-ui, sans-serif;
+
+/* Body - Clean, readable, modern */
+--font-body: 'Satoshi', 'General Sans', 'Inter', system-ui, sans-serif;
+
+/* Monospace - For queries and code */
 --font-mono: 'JetBrains Mono', 'Fira Code', monospace;
 ```
 
 ### 3.2 Type Scale
 
-| Name | Size | Weight | Usage |
-|------|------|--------|-------|
-| `heading-1` | 36px | 700 | Page titles |
-| `heading-2` | 24px | 600 | Section titles |
-| `heading-3` | 18px | 600 | Card titles |
-| `body` | 16px | 400 | Body text |
-| `body-small` | 14px | 400 | Secondary text |
-| `caption` | 12px | 400 | Labels, hints |
-| `code` | 14px | 400 | Code, queries |
+| Name | Size | Weight | Line Height | Usage |
+|------|------|--------|-------------|-------|
+| `display` | 48px | 700 | 1.1 | Hero headlines |
+| `heading-1` | 32px | 600 | 1.2 | Page titles |
+| `heading-2` | 24px | 600 | 1.3 | Section titles |
+| `heading-3` | 18px | 600 | 1.4 | Card titles |
+| `body` | 16px | 400 | 1.6 | Body text |
+| `body-small` | 14px | 400 | 1.5 | Secondary text |
+| `caption` | 12px | 500 | 1.4 | Labels (uppercase) |
+| `code` | 14px | 400 | 1.5 | Code, queries |
+
+### 3.3 Spacing System (8px Grid)
+
+| Token | Value | Usage |
+|-------|-------|-------|
+| `--space-1` | 4px | Tight spacing |
+| `--space-2` | 8px | Small gaps |
+| `--space-3` | 12px | Compact padding |
+| `--space-4` | 16px | Standard padding |
+| `--space-6` | 24px | Section padding |
+| `--space-8` | 32px | Large gaps |
+
+### 3.4 Border Radius
+
+| Token | Value | Usage |
+|-------|-------|-------|
+| `--radius-sm` | 6px | Small elements, tags |
+| `--radius-md` | 8px | Buttons, inputs |
+| `--radius-lg` | 12px | Cards |
+| `--radius-xl` | 16px | Feature cards |
+| `--radius-2xl` | 24px | Hero cards, modals |
+| `--radius-full` | 9999px | Pills, avatars |
 
 ---
 
-## 4. Page Layouts
+## 4. Bento Grid Layout
+
+### 4.1 Grid Structure
+
+```css
+/* Desktop Grid (1280px+) */
+.bento-grid {
+  display: grid;
+  grid-template-columns: repeat(12, 1fr);
+  gap: var(--space-6);
+  max-width: 1200px;
+  margin: 0 auto;
+  padding: var(--space-6);
+}
+
+/* Tablet Grid (768px - 1279px) */
+@media (max-width: 1279px) {
+  .bento-grid {
+    grid-template-columns: repeat(8, 1fr);
+    gap: var(--space-4);
+  }
+}
+
+/* Mobile Grid (< 768px) */
+@media (max-width: 767px) {
+  .bento-grid {
+    grid-template-columns: repeat(4, 1fr);
+    gap: var(--space-4);
+    padding: var(--space-4);
+  }
+}
+```
+
+### 4.2 Card Sizes
+
+| Card Type | Desktop | Tablet | Mobile |
+|-----------|---------|--------|--------|
+| Hero (Brief Input) | 8 cols | 5 cols | 4 cols |
+| Sidebar (Options) | 4 cols | 3 cols | 4 cols |
+| Analysis Tag | 3 cols | 2 cols | 2 cols |
+| Result Card | 12 cols | 8 cols | 4 cols |
+
+---
+
+## 5. Unique Visual Elements
+
+### 5.1 Viewfinder Frame
+
+A signature visual element inspired by camera viewfinders. Use for hero sections and focus areas.
+
+```css
+.viewfinder {
+  position: relative;
+  padding: var(--space-6);
+}
+
+.viewfinder::before,
+.viewfinder::after {
+  content: '';
+  position: absolute;
+  width: 24px;
+  height: 24px;
+  border: 2px solid var(--color-purple);
+}
+
+/* Top-left corner */
+.viewfinder::before {
+  top: 0; left: 0;
+  border-right: none;
+  border-bottom: none;
+}
+
+/* Top-right corner */
+.viewfinder::after {
+  top: 0; right: 0;
+  border-left: none;
+  border-bottom: none;
+}
+```
+
+### 5.2 Film Strip Progress
+
+```css
+.film-strip {
+  display: flex;
+  gap: var(--space-2);
+}
+
+.film-frame {
+  width: 24px;
+  height: 20px;
+  border: 2px solid var(--color-border);
+  border-radius: var(--radius-sm);
+  background: var(--color-surface);
+  transition: all 0.3s ease;
+}
+
+.film-frame.complete {
+  background: var(--gradient-accent);
+  border-color: var(--color-purple);
+}
+
+.film-frame.active {
+  border-color: var(--color-magenta);
+  animation: pulse 1s infinite;
+}
+```
+
+### 5.3 Light Leak Overlay
+
+Gradient overlay on hover/focus for premium feel:
+
+```css
+.light-leak {
+  position: relative;
+  overflow: hidden;
+}
+
+.light-leak::after {
+  content: '';
+  position: absolute;
+  top: 0;
+  left: -100%;
+  width: 100%;
+  height: 100%;
+  background: linear-gradient(120deg, rgba(177, 83, 215, 0.12) 0%, transparent 60%);
+  opacity: 0;
+  transition: all 0.4s ease;
+}
+
+.light-leak:hover::after {
+  left: 0;
+  opacity: 1;
+}
+```
+
+---
+
+## 6. Page Layouts
 
 ### 4.1 Login Page
 
@@ -289,7 +495,7 @@
 
 ---
 
-## 5. Components
+## 7. Components
 
 ### 5.1 Result Card
 
@@ -338,26 +544,22 @@
 
 ### 5.3 Platform Badge
 
-```
-Getty Images:     ┌────────────────┐
-                  │ 🔴 Getty       │
-                  └────────────────┘
+Platform badges use warm gradient backgrounds for visual consistency:
 
-Shutterstock:     ┌────────────────┐
-                  │ 🟠 Shutterstock│
-                  └────────────────┘
+```css
+.platform-badge {
+  padding: 6px 14px;
+  border-radius: 6px;
+  font-size: 13px;
+  font-weight: 600;
+  color: white;
+}
 
-Adobe Stock:      ┌────────────────┐
-                  │ 🔴 Adobe Stock │
-                  └────────────────┘
-
-Unsplash:         ┌────────────────┐
-                  │ ⬛ Unsplash    │
-                  └────────────────┘
-
-Pexels:           ┌────────────────┐
-                  │ 🟢 Pexels      │
-                  └────────────────┘
+.badge-getty { background: linear-gradient(135deg, #0E21A0, #4D2FB2); }
+.badge-shutterstock { background: linear-gradient(135deg, #4D2FB2, #B153D7); }
+.badge-adobe { background: linear-gradient(135deg, #B153D7, #F375C2); }
+.badge-unsplash { background: linear-gradient(135deg, #4A4845, #2D2A26); }
+.badge-pexels { background: linear-gradient(135deg, #2DD4A8, #10B981); }
 ```
 
 ### 5.4 View Toggle
@@ -372,7 +574,7 @@ Pexels:           ┌────────────────┐
 
 ---
 
-## 6. Responsive Design
+## 8. Responsive Design
 
 ### 6.1 Breakpoints
 
@@ -430,7 +632,7 @@ Pexels:           ┌────────────────┐
 
 ---
 
-## 7. Interactions & Animations
+## 9. Interactions & Animations
 
 ### 7.1 Loading States
 
@@ -460,32 +662,62 @@ Pexels:           ┌────────────────┐
 └─────────────────────────────────────────────────────────────────┘
 ```
 
-### 7.2 Micro-interactions
+### 7.2 Micro-interactions (Photography-Themed)
 
-| Action | Animation |
-|--------|-----------|
-| Button click | Scale down 0.95, then back |
-| Card hover | Subtle shadow increase |
-| Copy success | Checkmark icon + "Copied!" |
-| Favorite | Heart fills with pop effect |
-| Theme toggle | Smooth color transition |
+| Action | Animation | Description |
+|--------|-----------|-------------|
+| Button click | "Shutter" effect | Scale to 0.95, brief opacity dip |
+| Card hover | Purple glow lift | translateY(-4px) + magenta shadow glow |
+| Results appear | "Develop" reveal | Blur to focus + desaturate to saturate |
+| Copy success | "Flash" effect | Brief white overlay flash |
+| Favorite | Heart fills | Pop scale effect with pink fill |
+| Theme toggle | Smooth transition | 200ms color/background fade |
 
-### 7.3 Transitions
+### 7.3 Animation Keyframes
 
 ```css
-/* Default transition */
-transition: all 150ms ease-in-out;
+/* Shutter click - button press */
+@keyframes shutter {
+  0% { transform: scale(1); }
+  50% { transform: scale(0.95); opacity: 0.8; }
+  100% { transform: scale(1); }
+}
 
-/* Theme transition */
-transition: background-color 200ms ease, color 200ms ease;
+/* Develop reveal - results appearing */
+@keyframes develop {
+  0% { 
+    opacity: 0; 
+    filter: blur(8px) saturate(0); 
+    transform: translateY(8px); 
+  }
+  100% { 
+    opacity: 1; 
+    filter: blur(0) saturate(1); 
+    transform: translateY(0); 
+  }
+}
 
-/* Card hover */
-transition: box-shadow 150ms ease, transform 150ms ease;
+/* Flash effect - copy success */
+@keyframes flash {
+  0% { background: transparent; }
+  15% { background: rgba(255, 255, 255, 0.6); }
+  100% { background: transparent; }
+}
+```
+
+### 7.4 Timing Tokens
+
+```css
+--duration-fast: 150ms;
+--duration-normal: 200ms;
+--duration-slow: 300ms;
+--ease-default: cubic-bezier(0.4, 0, 0.2, 1);
+--ease-bounce: cubic-bezier(0.34, 1.56, 0.64, 1);
 ```
 
 ---
 
-## 8. Accessibility
+## 10. Accessibility
 
 ### 8.1 Requirements
 
@@ -508,7 +740,7 @@ transition: box-shadow 150ms ease, transform 150ms ease;
 
 ---
 
-## 9. Error States
+## 11. Error States
 
 ### 9.1 Empty States
 
@@ -568,7 +800,7 @@ transition: box-shadow 150ms ease, transform 150ms ease;
 
 ---
 
-## 10. Design Tokens (Tailwind Config)
+## 12. Design Tokens (Tailwind Config)
 
 ```javascript
 // tailwind.config.js
@@ -576,29 +808,60 @@ module.exports = {
   theme: {
     extend: {
       colors: {
-        border: "hsl(var(--border))",
-        background: "hsl(var(--background))",
-        foreground: "hsl(var(--foreground))",
-        primary: {
-          DEFAULT: "hsl(var(--primary))",
-          foreground: "hsl(var(--primary-foreground))",
+        // Primary - Cosmic Gradient
+        'deep-blue': '#0E21A0',
+        purple: '#4D2FB2',
+        magenta: '#B153D7',
+        pink: '#F375C2',
+        
+        // Neutral - Cool Grays
+        canvas: '#FAFAFE',
+        surface: '#F5F5FA',
+        'cool-gray': {
+          50: '#FAFAFE',
+          100: '#F5F5FA',
+          200: '#EDEDF5',
+          300: '#E4E4EE',
+          400: '#9999AA',
+          500: '#6B6B80',
+          600: '#4A4A5E',
+          700: '#2A2A45',
+          800: '#1A1A2E',
+          900: '#0D0D1A',
         },
-        muted: {
-          DEFAULT: "hsl(var(--muted))",
-          foreground: "hsl(var(--muted-foreground))",
-        },
-        // Platform colors
-        getty: "#FF0000",
-        shutterstock: "#EE2B24",
-        adobe: "#FF0000",
-        unsplash: "#000000",
-        pexels: "#05A081",
+        
+        // Semantic
+        success: '#10B981',
+        warning: '#F59E0B',
+        error: '#EF4444',
       },
       fontFamily: {
-        sans: ["Inter", "sans-serif"],
-        mono: ["JetBrains Mono", "monospace"],
+        display: ['Clash Display', 'Cabinet Grotesk', 'system-ui', 'sans-serif'],
+        body: ['Satoshi', 'General Sans', 'Inter', 'system-ui', 'sans-serif'],
+        mono: ['JetBrains Mono', 'Fira Code', 'monospace'],
+      },
+      borderRadius: {
+        'sm': '6px',
+        'md': '8px',
+        'lg': '12px',
+        'xl': '16px',
+        '2xl': '24px',
+      },
+      boxShadow: {
+        'glow': '0 4px 20px rgba(177, 83, 215, 0.3)',
+        'glow-lg': '0 8px 32px rgba(177, 83, 215, 0.4)',
+        'glow-pink': '0 4px 20px rgba(243, 117, 194, 0.3)',
+        'cool-sm': '0 1px 2px rgba(26, 26, 46, 0.05)',
+        'cool-md': '0 4px 12px rgba(26, 26, 46, 0.08)',
+        'cool-lg': '0 8px 24px rgba(26, 26, 46, 0.12)',
       },
     },
   },
 };
 ```
+
+---
+
+## 13. Related Files
+
+- **[mockups-v2.html](./mockups-v2.html)** - Interactive responsive mockups demonstrating the design system
