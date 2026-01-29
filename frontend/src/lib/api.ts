@@ -2,7 +2,13 @@
  * API client for Stock Image Helper backend
  */
 
-const API_BASE = process.env.NEXT_PUBLIC_API_URL || "http://localhost:7071/api";
+// In production (Azure Static Web Apps), API is at /api
+// In development, use local Azure Functions at localhost:7071
+const API_BASE = process.env.NEXT_PUBLIC_API_URL || (
+  typeof window !== 'undefined' && window.location.hostname !== 'localhost'
+    ? '/api'
+    : 'http://localhost:7071/api'
+);
 
 export interface BriefAnalysis {
   subject: string;
